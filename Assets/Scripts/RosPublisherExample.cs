@@ -13,7 +13,7 @@ public class RosPublisherExample : MonoBehaviour
     // The game object
     public GameObject cube;
     // Publish the cube's position and rotation every N seconds
-    public float publishMessageFrequency = 0.5f;
+    public float publishMessageFrequency = 0.05f;
 
     // Used to determine how much time has elapsed since the last message was published
     private float timeElapsed;
