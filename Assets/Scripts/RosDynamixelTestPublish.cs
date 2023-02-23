@@ -2,27 +2,27 @@ using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.UnityRoboticsDemo;
 
-/// <summary>
-///
-/// </summary>
-public class RosPublisherExample : MonoBehaviour
+public class RosDynamixelTestPublish : MonoBehaviour
 {
     ROSConnection ros;
-    public string topicName = "pos_rot";
+    public string topicName = "set_position";
 
     // The game object
     public GameObject cube;
     // Publish the cube's position and rotation every N seconds
-    public float publishMessageFrequency = 0.000000000000000000000000000000001f;
+    public float publishMessageFrequency = 0.5f;
 
     // Used to determine how much time has elapsed since the last message was published
     private float timeElapsed;
+
+    [SerializeField]
+    private int motorPosition = 0;
 
     void Start()
     {
         // start the ROS connection
         ros = ROSConnection.GetOrCreateInstance();
-        ros.RegisterPublisher<PosRotMsg>(topicName);
+        ros.RegisterPublisher<SetPositionMsg>(topicName);
     }
 
     private void Update()
@@ -33,14 +33,9 @@ public class RosPublisherExample : MonoBehaviour
         {
             //cube.transform.rotation = Random.rotation;
 
-            PosRotMsg cubePos = new PosRotMsg(
-                cube.transform.position.x,
-                cube.transform.position.y,
-                cube.transform.position.z,
-                cube.transform.rotation.x,
-                cube.transform.rotation.y,
-                cube.transform.rotation.z,
-                cube.transform.rotation.w
+            SetPositionMsg cubePos = new SetPositionMsg(
+                    1,
+                    motorPosition
             );
 
             // Finally send the message to server_endpoint.py running in ROS
