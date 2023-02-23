@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.UnityRoboticsDemo;
+using Unity.VisualScripting;
 
 public class RosDynamixelTestPublish : MonoBehaviour
 {
@@ -18,11 +20,18 @@ public class RosDynamixelTestPublish : MonoBehaviour
     [SerializeField]
     private int motorPosition = 0;
 
+    [SerializeField]
+    private GameObject rightHand;
+
+    private float rightHandstartX;
+    
     void Start()
     {
         // start the ROS connection
         ros = ROSConnection.GetOrCreateInstance();
         ros.RegisterPublisher<SetPositionMsg>(topicName);
+
+        rightHandstartX = rightHand.GameObject().transform.position.x;
     }
 
     private void Update()
@@ -33,9 +42,16 @@ public class RosDynamixelTestPublish : MonoBehaviour
         {
             //cube.transform.rotation = Random.rotation;
 
+            //Displacement between right hand starting position and current position
+            float displacement = Math.Abs(rightHandstartX - rightHand.GameObject().transform.position.x);
+            int motordisplacement = (int)(200 * displacement);
+            if (motordisplacement > 1023) motordisplacement = 1023;
+
+            motorPosition = motordisplacement;
+            
             SetPositionMsg cubePos = new SetPositionMsg(
                     1,
-                    motorPosition
+                    motordisplacement
             );
 
             // Finally send the message to server_endpoint.py running in ROS
