@@ -4,13 +4,14 @@ using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.UnityRoboticsDemo;
 using Unity.VisualScripting;
 
-public class RosDynamixelTestPublish : MonoBehaviour
+public class RosDynamixelMotorControl : MonoBehaviour
 {
-    ROSConnection ros;
+    //Motor Control topic name
     private string topicName = "set_position";
 
-    // The game object
-    //public GameObject cube;
+    //Set Scene's ROS Manager
+    [SerializeField] private RosManager rosmanager;
+    
     // Publish the cube's position and rotation every N seconds
     [SerializeField]
     private float publishMessageFrequency = 0.5f;
@@ -29,15 +30,16 @@ public class RosDynamixelTestPublish : MonoBehaviour
     
     void Start()
     {
-        // start the ROS connection
-        ros = ROSConnection.GetOrCreateInstance();
-        ros.RegisterPublisher<SetPositionMsg>(topicName);
-
         testCube = gameObject;
         testCubestartX = testCube.GameObject().transform.position.x;
     }
 
     private void Update()
+    {
+        publishRosMessage();
+    }
+
+    public void publishRosMessage()
     {
         timeElapsed += Time.deltaTime;
 
@@ -57,7 +59,7 @@ public class RosDynamixelTestPublish : MonoBehaviour
             );
 
             // Finally send the message to server_endpoint.py running in ROS
-            ros.Publish(topicName, cubePos);
+            rosmanager.publishMotorPos(topicName, cubePos);
 
             timeElapsed = 0;
         }
