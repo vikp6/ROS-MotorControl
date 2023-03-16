@@ -8,7 +8,7 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 namespace RosMessageTypes.UnityRoboticsDemo
 {
     [Serializable]
-    public class SetPositionMsg : Message
+    public class MotorDataMsg : Message
     {
         public const string k_RosMessageName = "dynamixel_sdk_custom_interfaces/SetPosition";
         public override string RosMessageName => k_RosMessageName;
@@ -17,23 +17,23 @@ namespace RosMessageTypes.UnityRoboticsDemo
         public Int32 position;
 
 
-        public SetPositionMsg()
+        public MotorDataMsg()
         {
             this.id = 1;
             this.position = 0;
 
         }
 
-        public SetPositionMsg(int id, Int32 position)
+        public MotorDataMsg(int id, Int32 position)
         {
             this.id = id;
             this.position = position;
 
         }
 
-        public static SetPositionMsg Deserialize(MessageDeserializer deserializer) => new SetPositionMsg(deserializer);
+        public static MotorDataMsg Deserialize(MessageDeserializer deserializer) => new MotorDataMsg(deserializer);
 
-        private SetPositionMsg(MessageDeserializer deserializer)
+        private MotorDataMsg(MessageDeserializer deserializer)
         {
             deserializer.Read(out this.id);
             deserializer.Read(out this.position);

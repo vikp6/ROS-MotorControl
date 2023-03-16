@@ -31,7 +31,7 @@ public class RosDynamixelTestPublish : MonoBehaviour
     {
         // start the ROS connection
         ros = ROSConnection.GetOrCreateInstance();
-        ros.RegisterPublisher<SetPositionMsg>(topicName);
+        ros.RegisterPublisher<MotorDataMsg>(topicName);
 
         testCube = gameObject;
         testCubestartX = testCube.GameObject().transform.position.x;
@@ -52,7 +52,7 @@ public class RosDynamixelTestPublish : MonoBehaviour
 
             motorPosition = motordisplacement;
             
-            SetPositionMsg cubePos = new SetPositionMsg(
+            MotorDataMsg cubePos = new MotorDataMsg(
                 motorID, motordisplacement
             );
 

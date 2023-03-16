@@ -4,7 +4,7 @@ using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.UnityRoboticsDemo;
 using Unity.VisualScripting;
 
-public class RosDynamixelMotorControl : MonoBehaviour
+public class RosDynamixelMotorControlBasic : MonoBehaviour
 {
     //Motor Control topic name
     private string topicName = "set_position";
@@ -54,12 +54,8 @@ public class RosDynamixelMotorControl : MonoBehaviour
 
             motorPosition = motordisplacement;
             
-            SetPositionMsg cubePos = new SetPositionMsg(
-                motorID, motordisplacement
-            );
-
             // Finally send the message to server_endpoint.py running in ROS
-            rosmanager.publishMotorPos(topicName, cubePos);
+            rosmanager.publishMotorPos(motorID, motorPosition);
 
             timeElapsed = 0;
         }
