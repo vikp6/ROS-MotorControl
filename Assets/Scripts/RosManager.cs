@@ -17,6 +17,15 @@ public class RosManager : MonoBehaviour
     
     //float awaitingResponseUntilTimestamp = -1;
     
+    // Publish the cube's position and rotation every N seconds
+    [SerializeField]
+    private float publishMessageFrequency = 0.01f;
+    
+    // Used to determine how much time has elapsed since the last message was published
+    private float timeElapsed;
+    
+    private float timeElapsed2;
+    
     private void Start()
     {
         // start the ROS connection
@@ -26,6 +35,7 @@ public class RosManager : MonoBehaviour
         {
             ros.RegisterPublisher<MotorDataMsg>(topic);
         }
+        
         
         //Setup Service Call
         ros.RegisterRosService<GetPositionRequest, GetPositionResponse>(serviceName);
@@ -40,26 +50,47 @@ public class RosManager : MonoBehaviour
     public void publishMotorPos(int motorID, int motorPosition)
     {
         
-        MotorDataMsg motorPos = new MotorDataMsg(
-            motorID, motorPosition
-        );
+        timeElapsed += Time.deltaTime;
+
+        if (timeElapsed > publishMessageFrequency)
+        {
+            //Slider Logic Here
+
+            // Finally send the message to server_endpoint.py running in ROS
+            MotorDataMsg motorPos = new MotorDataMsg(
+                motorID, motorPosition
+            );
         
-        ros.Publish("set_position", motorPos);
+            ros.Publish("set_position", motorPos);
+            
+            
+            timeElapsed = 0;
+        }
+        
+
         //Debug.Log($"Published: Motor Position- {motorPosition}, Motor ID- {motorID}");        
 
     }
     
     public void receiveMotorPos(int motorID)
     {
-        MotorDataMsg motorPos = new MotorDataMsg(
-            motorID, 0
-        );
+        timeElapsed2 += Time.deltaTime;
+        
+        float threshold = 0.1f;
 
-        GetPositionRequest getpositionRequest = new GetPositionRequest(motorPos);
-        ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, Callback_Destination);
-        //awaitingResponseUntilTimestamp = Time.time + 1.0f;
-        //Debug.Log(MotorDataMessage);
-        //Add what to do with service data from ROS
+        if (timeElapsed2 > threshold)
+        {
+            MotorDataMsg motorPos = new MotorDataMsg(
+                motorID, 0
+            );
+
+            GetPositionRequest getpositionRequest = new GetPositionRequest(motorPos);
+            ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, Callback_Destination);
+
+            timeElapsed2 = 0;
+        }
+        
+
 
     }
     
