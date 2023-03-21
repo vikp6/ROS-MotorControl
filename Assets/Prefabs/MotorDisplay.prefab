@@ -257,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6239820366624984340}
   m_Layer: 0
-  m_Name: MotorDial
+  m_Name: MotorDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
