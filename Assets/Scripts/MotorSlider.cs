@@ -154,7 +154,9 @@ public class MotorSlider : MonoBehaviour
 
         //motorDial.transform.rotation = new Quaternion(motorRotation.x, motorRotation.y, rotDeg*Mathf.Deg2Rad, motorRotation.w);
 
-
+        //Send Haptic
+        float value = m_MotorPosition / 1023f;
+        rightHand.GetComponent<XRBaseController>().SendHapticImpulse(value,.1f);
 
     }
     
