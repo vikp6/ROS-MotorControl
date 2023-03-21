@@ -4,6 +4,7 @@ using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.UnityRoboticsDemo;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MotorSlider : MonoBehaviour
@@ -29,29 +30,35 @@ public class MotorSlider : MonoBehaviour
 
     private TextMeshPro[] m_PositionText;
 
+    [SerializeField] private GameObject motorDial;
+
+    [SerializeField] private GameObject rightHand;
+
+    [SerializeField] private InputActionReference rightPrimaryButton;
+    
     // private bool resetMotors = false;
     
     void Start()
     {
 
-        //Reset all motor positions to 0 
-
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
+    }
+
+    private void Awake()
+    {
+        rightPrimaryButton.action.started += DialControl;
+    }
+
+    private void OnDestroy()
+    {
+        rightPrimaryButton.action.started -= DialControl;
     }
 
     private void Update()
     {
-        // if (!resetMotors)
-        // {
-        //     SetID(0);
-        //     SetID(1);
-        //     SetID(2);
-        //     SetID(3);
-        //     SetID(4);
-        //     SetID(5);
-        //     resetMotors = true;
-        // }
-        
+
+        //ENABLE THIS FOR HAND CONTROL
+        //handTurnMotorControl();
         
         //sendSliderPosition();
         rosmanager.publishMotorPos(m_MotorID, m_MotorPosition);
@@ -64,8 +71,24 @@ public class MotorSlider : MonoBehaviour
         }
 
     }
-    
-    
+
+    private void DialControl(InputAction.CallbackContext callbackContext)
+    {
+        print("hello");
+        if (motorDial.activeSelf)
+        {
+            motorDial.SetActive(false);
+        }
+        else
+        {
+            motorDial.SetActive(true);
+
+            var handposition = rightHand.transform.position;
+            motorDial.transform.position = new Vector3(handposition.x, handposition.y,
+                handposition.z + 0.2f);
+            
+        }
+    }
 
     public void SetPosition(float position)
     {
@@ -73,8 +96,48 @@ public class MotorSlider : MonoBehaviour
         //Debug.Log($"Motor Position: {m_MotorPosition}");
         //sendSliderPosition();
         m_PositionText[0].text = $"E Position: {m_MotorPosition}";
-        
 
+        //Adjust Dial
+        var motorEuler = motorDial.transform.eulerAngles;
+        float rotDeg = (position / 3.41f)-150;
+        
+        if (rotDeg > 150)
+        {
+            rotDeg = 150;
+        }
+        
+        //print(rotDeg);
+        //print(rotDeg*Mathf.Deg2Rad);
+
+        motorDial.transform.eulerAngles = new Vector3(motorEuler.x, motorEuler.y, rotDeg);
+
+        //motorDial.transform.rotation = new Quaternion(motorRotation.x, motorRotation.y, rotDeg*Mathf.Deg2Rad, motorRotation.w);
+
+
+
+    }
+
+    //Right Hand Rotation can control motor with this, need to get it to be enabled by an input action
+    public void handTurnMotorControl()
+    {
+        float handRot = rightHand.transform.eulerAngles.z;
+
+        
+        
+        if (handRot is > 150 and < 210)
+        {
+            
+        }
+        else
+        {
+            if (handRot >= 210)
+            {
+                handRot -= 360;
+            }
+            m_Slider.value = (handRot + 150) * 3.41f;
+        }
+        
+        
     }
     
     public void SetID(int id)
