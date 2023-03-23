@@ -90,6 +90,8 @@ public class MotorSlider : MonoBehaviour
         }
         else
         {
+            motorDial_Control.transform.rotation = motorDisplay.transform.rotation;
+            
             motorDial_Control.SetActive(true);
             rightHand.GetComponent<XRRayInteractor>().enabled = false;
 
@@ -187,6 +189,13 @@ public class MotorSlider : MonoBehaviour
     
     public void SetID(int id)
     {
+        //Disable dial control if active
+        if (motorDial_Control.activeSelf)
+        {
+            motorDial_Control.SetActive(false);
+            rightHand.GetComponent<XRRayInteractor>().enabled = true;
+        }
+        
         //Save prev motor state
         motorSaveState[m_MotorID - 1] = m_MotorPosition;
         

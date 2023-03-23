@@ -15,8 +15,6 @@ public class RosManager : MonoBehaviour
     public string serviceName = "get_position";
     public int actualPosition;
     
-    //float awaitingResponseUntilTimestamp = -1;
-    
     // Publish the cube's position and rotation every N seconds
     [SerializeField]
     private float publishMessageFrequency = 0.01f;
