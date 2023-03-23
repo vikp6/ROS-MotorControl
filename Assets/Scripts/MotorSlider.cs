@@ -46,12 +46,11 @@ public class MotorSlider : MonoBehaviour
 
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
         rightPrimaryButton.action.Enable();
-    }
-
-    private void Awake()
-    {
         rightPrimaryButton.action.started += DialControl;
+        
+        RosManager.onPositionReceived += OnPositionReceived;
     }
+    
 
     private void OnDestroy()
     {
@@ -71,29 +70,46 @@ public class MotorSlider : MonoBehaviour
         //sendSliderPosition();
         rosmanager.publishMotorPos(m_MotorID, m_MotorPosition);
         
-        rosmanager.receiveMotorPos(m_MotorID);
-        if (rosmanager.actualPosition <= 1023)
-        {
-            m_PositionText[1].text = $"A Position: {rosmanager.actualPosition}";
-                
-        }
+        rosmanager.QueryMotorPosition(m_MotorID);
+        // if (rosmanager.actualPosition <= 1023)
+        // {
+        //     m_PositionText[1].text = $"A Position: {rosmanager.actualPosition}";
+        //         
+        // }
+        
+        
+        //rosmanager.QueryMotorPosition(m_MotorID);
+
 
     }
 
+    private void OnPositionReceived(int receivedPosition)
+    {
+        if (receivedPosition <= 1023)
+        {
+            m_PositionText[1].text = $"A Position: {receivedPosition}";
+                
+        }
+    }
+    
+    
     private void DialControl(InputAction.CallbackContext callbackContext)
     {
         
         if (motorDial_Control.activeSelf)
         {
             motorDial_Control.SetActive(false);
-            rightHand.GetComponent<XRRayInteractor>().enabled = true;
+            //rightHand.GetComponent<XRRayInteractor>().enabled = true;
+            rightHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
         }
         else
         {
             motorDial_Control.transform.rotation = motorDisplay.transform.rotation;
             
             motorDial_Control.SetActive(true);
-            rightHand.GetComponent<XRRayInteractor>().enabled = false;
+            //rightHand.GetComponent<XRRayInteractor>().enabled = false;
+            rightHand.GetComponentInChildren<XRRayInteractor>().enabled = false;
+
 
 
             var handposition = rightHand.transform.position;
