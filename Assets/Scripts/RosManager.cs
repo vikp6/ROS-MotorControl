@@ -72,61 +72,57 @@ public class RosManager : MonoBehaviour
 
     }
     
+    // public void QueryMotorPosition(int motorID, float timeThreshold=0.1f)
+    // {
+    //     timeElapsed2 += Time.deltaTime;
+    //     
+    //     if (timeElapsed2 > timeThreshold)
+    //     {
+    //         MotorDataMsg motorPos = new MotorDataMsg(
+    //             motorID, 0
+    //         );
+    //
+    //         GetPositionRequest getpositionRequest = new GetPositionRequest(motorPos);
+    //         //ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, GetMotorPosition);
+    //         
+    //         ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, response => onPositionReceived?.Invoke(response.output.position));
+    //
+    //         timeElapsed2 = 0;
+    //     }
+    //     
+    // }
+    
     public void QueryMotorPosition(int motorID, float timeThreshold=0.1f)
     {
         timeElapsed2 += Time.deltaTime;
         
         if (timeElapsed2 > timeThreshold)
         {
-            MotorDataMsg motorPos = new MotorDataMsg(
-                motorID, 0
-            );
-
-            GetPositionRequest getpositionRequest = new GetPositionRequest(motorPos);
-            ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, GetMotorPosition);
-
+            GetMotorPosition(motorID);
+            
+            //onPositionReceived?.Invoke(position);
+            
             timeElapsed2 = 0;
         }
-        
+    
+    
     }
     
-    // public void QueryMotorPosition(int motorID, float timeThreshold=0.1f)
-    // {
-    //     int position;
-    //     timeElapsed2 += Time.deltaTime;
-    //     
-    //     if (timeElapsed2 > timeThreshold)
-    //     {
-    //         position = GetMotorPosition(motorID);
-    //         
-    //         //onPositionReceived?.Invoke(position);
-    //         
-    //         timeElapsed2 = 0;
-    //     }
-    //
-    //
-    // }
-    //
-    // private int GetMotorPosition(int motorID)
-    // {
-    //     int position = 0;
-    //     MotorDataMsg motorPos = new MotorDataMsg(
-    //         motorID, 0
-    //     );
-    //
-    //     GetPositionRequest getpositionRequest = new GetPositionRequest(motorPos);
-    //     ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, rsp => position = rsp.output.position);
-    //     onPositionReceived?.Invoke(position);
-    //     
-    //     Debug.Log($"GetMotorPosition: {position}");
-    //     
-    //     return position;
-    // }
-
-    void GetMotorPosition(GetPositionResponse response)
+    private void GetMotorPosition(int motorID)
     {
-        onPositionReceived?.Invoke(response.output.position);
+        MotorDataMsg motorPos = new MotorDataMsg(
+            motorID, 0
+        );
+    
+        GetPositionRequest getpositionRequest = new GetPositionRequest(motorPos);
+        ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, response => onPositionReceived?.Invoke(response.output.position));
         
-        Debug.Log($"Motor Position Service Response: {response.output.position}");
     }
+
+    // void GetMotorPosition(GetPositionResponse response)
+    // {
+    //     onPositionReceived?.Invoke(response.output.position);
+    //     
+    //     Debug.Log($"Motor Position Service Response: {response.output.position}");
+    // }
 }
