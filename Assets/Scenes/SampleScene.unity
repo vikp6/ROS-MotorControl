@@ -245,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
@@ -1874,7 +1874,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7980778679181241185, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
       propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 7980778679181241185, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341704053220158905, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341704053220158905, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
+      propertyPath: m_Constraints
       value: 62
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341704053220158905, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860448306536066177, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
+      propertyPath: m_MovementType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860448306536066177, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
+      propertyPath: m_SmoothRotation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860448306536066177, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
+      propertyPath: m_UseDynamicAttach
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8860448306536066177, guid: 5910b432f3cfec24799599ed77871af9, type: 3}
       propertyPath: m_MatchAttachPosition
