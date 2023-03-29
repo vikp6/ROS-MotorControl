@@ -5,6 +5,7 @@ using RosMessageTypes.UnityRoboticsDemo;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -12,13 +13,13 @@ public class MotorSlider : MonoBehaviour
 {
 
     //Set Scene's ROS Manager
-    [SerializeField] private RosManager rosmanager;
+    [SerializeField] private RosManager m_Rosmanager;
 
     //User can set the number of motors daisy chained
-    private static int numbofMotors = 6;
+    private static int m_NumbofMotors = 6;
     
     //Saves the most recent position value of a motor before dropdown selection is changed
-    private int[] motorSaveState = new int[numbofMotors];
+    private int[] m_MotorSaveState = new int[m_NumbofMotors];
 
     private int m_MotorPosition = 0;
 
@@ -31,13 +32,13 @@ public class MotorSlider : MonoBehaviour
 
     private TextMeshPro[] m_PositionText;
 
-    [SerializeField] private GameObject motorDisplay;
+    [SerializeField] private GameObject m_MotorDisplay;
 
-    [SerializeField] private GameObject motorDial_Control;
+    [SerializeField] private GameObject m_MotorDialControl;
 
-    [SerializeField] private GameObject rightHand;
+    [SerializeField] private GameObject m_RightHand;
 
-    [SerializeField] private InputActionReference rightPrimaryButton;
+    [SerializeField] private InputActionReference m_RightPrimaryButton;
     
     // private bool resetMotors = false;
     
@@ -45,8 +46,8 @@ public class MotorSlider : MonoBehaviour
     {
 
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
-        rightPrimaryButton.action.Enable();
-        rightPrimaryButton.action.started += DialControl;
+        m_RightPrimaryButton.action.Enable();
+        m_RightPrimaryButton.action.started += DialControl;
         
         RosManager.onPositionReceived += OnPositionReceived;
     }
@@ -54,7 +55,7 @@ public class MotorSlider : MonoBehaviour
 
     private void OnDestroy()
     {
-        rightPrimaryButton.action.started -= DialControl;
+        m_RightPrimaryButton.action.started -= DialControl;
     }
 
     private void Update()
@@ -64,20 +65,13 @@ public class MotorSlider : MonoBehaviour
         //handTurnMotorControl();
         
         //Dial Control
-        if (motorDial_Control.activeSelf) DialSetPosition();
+        if (m_MotorDialControl.activeSelf) DialSetPosition();
         
+        m_Rosmanager.PublishMotorPos(m_MotorID, m_MotorPosition);
         
-        //sendSliderPosition();
-        rosmanager.publishMotorPos(m_MotorID, m_MotorPosition);
-        
-        rosmanager.QueryMotorPosition(m_MotorID);
-        // if (rosmanager.actualPosition <= 1023)
-        // {
-        //     m_PositionText[1].text = $"A Position: {rosmanager.actualPosition}";
-        //         
-        // }
-        
-        
+        m_Rosmanager.QueryMotorPosition(m_MotorID);
+
+
         //rosmanager.QueryMotorPosition(m_MotorID);
 
 
@@ -85,35 +79,44 @@ public class MotorSlider : MonoBehaviour
 
     private void OnPositionReceived(int receivedPosition)
     {
-        if (receivedPosition <= 1023)
+
+        m_PositionText[1].text = $"A Position: {receivedPosition}";
+        
+        //Adjust Display
+        var motorEuler = m_MotorDisplay.transform.eulerAngles;
+        float rotDeg = (receivedPosition / 3.41f)-150;
+        
+        if (rotDeg > 150)
         {
-            m_PositionText[1].text = $"A Position: {receivedPosition}";
-                
+            rotDeg = 150;
         }
+
+        m_MotorDisplay.transform.eulerAngles = new Vector3(motorEuler.x, motorEuler.y, rotDeg);
+        
     }
     
     
     private void DialControl(InputAction.CallbackContext callbackContext)
     {
         
-        if (motorDial_Control.activeSelf)
+        if (m_MotorDialControl.activeSelf)
         {
-            motorDial_Control.SetActive(false);
+            m_MotorDialControl.SetActive(false);
             //rightHand.GetComponent<XRRayInteractor>().enabled = true;
-            rightHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
+            m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
         }
         else
         {
-            motorDial_Control.transform.rotation = motorDisplay.transform.rotation;
+            m_MotorDialControl.transform.rotation = m_MotorDisplay.transform.rotation;
             
-            motorDial_Control.SetActive(true);
+            m_MotorDialControl.SetActive(true);
             //rightHand.GetComponent<XRRayInteractor>().enabled = false;
-            rightHand.GetComponentInChildren<XRRayInteractor>().enabled = false;
+            m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = false;
 
 
 
-            var handposition = rightHand.transform.position;
-            motorDial_Control.transform.position = new Vector3(handposition.x, handposition.y,
+            var handposition = m_RightHand.transform.position;
+            m_MotorDialControl.transform.position = new Vector3(handposition.x, handposition.y,
                 handposition.z + 0.25f);
             
         }
@@ -121,7 +124,7 @@ public class MotorSlider : MonoBehaviour
 
     public void DialSetPosition()
     {
-        float motorEulerZ = motorDial_Control.transform.eulerAngles.z;
+        float motorEulerZ = m_MotorDialControl.transform.eulerAngles.z;
         print(motorEulerZ);
         
         
@@ -152,29 +155,24 @@ public class MotorSlider : MonoBehaviour
     public void SetPosition(float position)
     {
         m_MotorPosition = (int)position;
-        //Debug.Log($"Motor Position: {m_MotorPosition}");
-        //sendSliderPosition();
+        
+        
         m_PositionText[0].text = $"E Position: {m_MotorPosition}";
 
-        //Adjust Dial
-        var motorEuler = motorDisplay.transform.eulerAngles;
-        float rotDeg = (position / 3.41f)-150;
-        
-        if (rotDeg > 150)
-        {
-            rotDeg = 150;
-        }
-        
-        //print(rotDeg);
-        //print(rotDeg*Mathf.Deg2Rad);
-
-        motorDisplay.transform.eulerAngles = new Vector3(motorEuler.x, motorEuler.y, rotDeg);
-
-        //motorDial.transform.rotation = new Quaternion(motorRotation.x, motorRotation.y, rotDeg*Mathf.Deg2Rad, motorRotation.w);
+        // //Adjust Dial
+        // var motorEuler = m_MotorDisplay.transform.eulerAngles;
+        // float rotDeg = (position / 3.41f)-150;
+        //
+        // if (rotDeg > 150)
+        // {
+        //     rotDeg = 150;
+        // }
+        //
+        // m_MotorDisplay.transform.eulerAngles = new Vector3(motorEuler.x, motorEuler.y, rotDeg);
 
         //Send Haptic
         float value = m_MotorPosition / 1023f;
-        rightHand.GetComponent<XRBaseController>().SendHapticImpulse(value,.1f);
+        m_RightHand.GetComponent<XRBaseController>().SendHapticImpulse(value,.1f);
 
     }
     
@@ -206,62 +204,25 @@ public class MotorSlider : MonoBehaviour
     public void SetID(int id)
     {
         //Disable dial control if active
-        if (motorDial_Control.activeSelf)
+        if (m_MotorDialControl.activeSelf)
         {
-            motorDial_Control.SetActive(false);
-            rightHand.GetComponent<XRRayInteractor>().enabled = true;
+            m_MotorDialControl.SetActive(false);
+            m_RightHand.GetComponent<XRRayInteractor>().enabled = true;
         }
         
         //Save prev motor state
-        motorSaveState[m_MotorID - 1] = m_MotorPosition;
+        m_MotorSaveState[m_MotorID - 1] = m_MotorPosition;
         
         //Update Motor ID
         m_MotorID = id+1;
         
         //Retrieve previous save state motor position
         //m_MotorPosition = motorSaveState[id];
-        m_Slider.value = motorSaveState[id];
+        m_Slider.value = m_MotorSaveState[id];
 
         //Debug.Log($"Motor ID: {m_MotorID}");
         //m_MotorPosition = rosmanager.actualPosition;
 
     }
-
-    // public void sendSliderPosition()
-    // {
-    //     timeElapsed += Time.deltaTime;
-    //
-    //     if (timeElapsed > publishMessageFrequency)
-    //     {
-    //         //Slider Logic Here
-    //
-    //         // Finally send the message to server_endpoint.py running in ROS
-    //         rosmanager.publishMotorPos(m_MotorID, m_MotorPosition);
-    //         
-    //         m_PositionText[0].text = $"E Position: {m_MotorPosition}";
-    //
-    //         
-    //         timeElapsed = 0;
-    //     }
-    // }
-
-    // public void getCurrMotorPosition(int MotorID)
-    // {
-    //     timeElapsed2 += Time.deltaTime;
-    //     
-    //     float threshold = 0.001f;
-    //
-    //     if (timeElapsed2 > threshold)
-    //     {
-    //         rosmanager.receiveMotorPos(MotorID);
-    //         if (rosmanager.actualPosition <= 1023)
-    //         {
-    //             m_PositionText[1].text = $"A Position: {rosmanager.actualPosition}";
-    //             
-    //         }
-    //         
-    //         
-    //         timeElapsed2 = 0;
-    //     }
-    // }
+    
 }
