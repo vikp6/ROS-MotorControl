@@ -1757,7 +1757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c671444e4a847918a22eb8f95019e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  publishMessageFrequency: 0.01
+  m_PublishMessageFrequency: 0.01
 --- !u!4 &1067662881
 Transform:
   m_ObjectHideFlags: 0
@@ -1951,11 +1951,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1067662880}
     - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_RightHand
+      value: 
+      objectReference: {fileID: 2063237900}
+    - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_Rosmanager
+      value: 
+      objectReference: {fileID: 1067662880}
+    - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
       propertyPath: motorDial_Control
       value: 
       objectReference: {fileID: 1484159511}
     - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_MotorDialControl
+      value: 
+      objectReference: {fileID: 1484159511}
+    - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
       propertyPath: rightPrimaryButton
+      value: 
+      objectReference: {fileID: 5971953724504557365, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
+    - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_RightPrimaryButton
       value: 
       objectReference: {fileID: 5971953724504557365, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
     - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}

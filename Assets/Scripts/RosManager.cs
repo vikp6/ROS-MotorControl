@@ -3,25 +3,26 @@ using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.UnityRoboticsDemo;
 using Unity.VisualScripting;
+using UnityEngine.Serialization;
 
 public class RosManager : MonoBehaviour
 {
-    ROSConnection ros;
-    private string[] topics = new[]
+    ROSConnection m_Ros;
+    private string[] m_Topics = new[]
     {
         "set_position"
     };
     
-    private string serviceName = "get_position";
+    private string m_ServiceName = "get_position";
     
     // Publish the cube's position and rotation every N seconds
     [SerializeField]
-    private float publishMessageFrequency = 0.01f;
+    private float m_PublishMessageFrequency = 0.01f;
     
     // Used to determine how much time has elapsed since the last message was published
-    private float timeElapsed;
+    private float m_TimeElapsed;
     
-    private float timeElapsed2;
+    private float m_TimeElapsed2;
 
     //Event used to set the actual position value that MotorSlider can subscribe to when invoked
     public static event Action<int> onPositionReceived;
@@ -29,16 +30,16 @@ public class RosManager : MonoBehaviour
     private void Start()
     {
         // start the ROS connection
-        ros = ROSConnection.GetOrCreateInstance();
+        m_Ros = ROSConnection.GetOrCreateInstance();
 
-        foreach (var topic in topics)
+        foreach (var topic in m_Topics)
         {
-            ros.RegisterPublisher<MotorDataMsg>(topic);
+            m_Ros.RegisterPublisher<MotorDataMsg>(topic);
         }
         
         
         //Setup Service Call
-        ros.RegisterRosService<GetPositionRequest, GetPositionResponse>(serviceName);
+        m_Ros.RegisterRosService<GetPositionRequest, GetPositionResponse>(m_ServiceName);
         
     }
 
@@ -47,12 +48,12 @@ public class RosManager : MonoBehaviour
         //receiveMotorPos(3);
     }
 
-    public void publishMotorPos(int motorID, int motorPosition)
+    public void PublishMotorPos(int motorID, int motorPosition)
     {
         
-        timeElapsed += Time.deltaTime;
+        m_TimeElapsed += Time.deltaTime;
 
-        if (timeElapsed > publishMessageFrequency)
+        if (m_TimeElapsed > m_PublishMessageFrequency)
         {
             //Slider Logic Here
 
@@ -61,10 +62,10 @@ public class RosManager : MonoBehaviour
                 motorID, motorPosition
             );
         
-            ros.Publish("set_position", motorPos);
+            m_Ros.Publish("set_position", motorPos);
             
             
-            timeElapsed = 0;
+            m_TimeElapsed = 0;
         }
         
 
@@ -74,54 +75,21 @@ public class RosManager : MonoBehaviour
     
     public void QueryMotorPosition(int motorID, float timeThreshold=0.1f)
     {
-        timeElapsed2 += Time.deltaTime;
+        m_TimeElapsed2 += Time.deltaTime;
         
-        if (timeElapsed2 > timeThreshold)
+        if (m_TimeElapsed2 > timeThreshold)
         {
             MotorDataMsg motorPos = new MotorDataMsg(
                 motorID, 0
             );
 
             GetPositionRequest getpositionRequest = new GetPositionRequest(motorPos);
-            ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, GetMotorPosition);
+            m_Ros.SendServiceMessage<GetPositionResponse>(m_ServiceName, getpositionRequest, GetMotorPosition);
 
-            timeElapsed2 = 0;
+            m_TimeElapsed2 = 0;
         }
         
     }
-    
-    // public void QueryMotorPosition(int motorID, float timeThreshold=0.1f)
-    // {
-    //     int position;
-    //     timeElapsed2 += Time.deltaTime;
-    //     
-    //     if (timeElapsed2 > timeThreshold)
-    //     {
-    //         position = GetMotorPosition(motorID);
-    //         
-    //         //onPositionReceived?.Invoke(position);
-    //         
-    //         timeElapsed2 = 0;
-    //     }
-    //
-    //
-    // }
-    //
-    // private int GetMotorPosition(int motorID)
-    // {
-    //     int position = 0;
-    //     MotorDataMsg motorPos = new MotorDataMsg(
-    //         motorID, 0
-    //     );
-    //
-    //     GetPositionRequest getpositionRequest = new GetPositionRequest(motorPos);
-    //     ros.SendServiceMessage<GetPositionResponse>(serviceName, getpositionRequest, rsp => position = rsp.output.position);
-    //     onPositionReceived?.Invoke(position);
-    //     
-    //     Debug.Log($"GetMotorPosition: {position}");
-    //     
-    //     return position;
-    // }
 
     void GetMotorPosition(GetPositionResponse response)
     {
