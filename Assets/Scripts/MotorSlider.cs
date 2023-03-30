@@ -13,7 +13,8 @@ public class MotorSlider : MonoBehaviour
 {
 
     //Set Scene's ROS Manager
-    [SerializeField] private RosManager m_Rosmanager;
+    [SerializeField] 
+    private RosManager m_Rosmanager;
 
     //User can set the number of motors daisy chained
     private static int m_NumbofMotors = 6;
@@ -32,13 +33,17 @@ public class MotorSlider : MonoBehaviour
 
     private TextMeshPro[] m_PositionText;
 
-    [SerializeField] private GameObject m_MotorDisplay;
+    [SerializeField] 
+    private GameObject m_MotorDisplay;
 
-    [SerializeField] private GameObject m_MotorDialControl;
+    [SerializeField] 
+    private GameObject m_MotorDialControl;
 
-    [SerializeField] private GameObject m_RightHand;
+    [SerializeField] 
+    private GameObject m_RightHand;
 
-    [SerializeField] private InputActionReference m_RightPrimaryButton;
+    [SerializeField] 
+    private InputActionReference m_RightPrimaryButton;
     
     // private bool resetMotors = false;
     
