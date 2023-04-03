@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9c4f590c66ef4f438a6ff8951c18229, type: 3}
+  m_Name: MotorData
+  m_EditorClassIdentifier: 
+  m_NumberOfMotors: 6
+  m_MotorPositionLow: 00000000000000000000000000000000c800000000000000
+  m_MotorPositionHigh: ff030000ff030000ff030000ff03000034030000ff030000

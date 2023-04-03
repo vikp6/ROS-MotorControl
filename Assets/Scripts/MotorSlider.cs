@@ -16,11 +16,12 @@ public class MotorSlider : MonoBehaviour
     [SerializeField] 
     private RosManager m_Rosmanager;
 
-    //User can set the number of motors daisy chained
-    private static int m_NumbofMotors = 6;
-    
+    //Scriptable Object
+    [SerializeField] 
+    private MotorData m_MotorDataScriptableObject;
+
     //Saves the most recent position value of a motor before dropdown selection is changed
-    private int[] m_MotorSaveState = new int[m_NumbofMotors];
+    private int[] m_MotorSaveState;
 
     private int m_MotorPosition = 0;
 
@@ -49,6 +50,11 @@ public class MotorSlider : MonoBehaviour
     
     void Start()
     {
+        m_MotorSaveState = new int[m_MotorDataScriptableObject.numberOfMotors];
+        for(int i = 0;i<m_MotorSaveState.Length;i++)
+        {
+            m_MotorSaveState[i] = m_MotorDataScriptableObject.MotorPositionLow[i];
+        }
 
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
         m_RightPrimaryButton.action.Enable();
@@ -145,9 +151,13 @@ public class MotorSlider : MonoBehaviour
             }
             
             float sliderPos = (motorEulerZ + 150) * 3.41f;
-            if (sliderPos > 1023)
+            if (sliderPos > m_MotorDataScriptableObject.MotorPositionHigh[m_MotorID-1])
             {
-                sliderPos = 1023;
+                sliderPos = m_MotorDataScriptableObject.MotorPositionHigh[m_MotorID-1];
+            }
+            else if (sliderPos < m_MotorDataScriptableObject.MotorPositionLow[m_MotorID - 1])
+            {
+                sliderPos = m_MotorDataScriptableObject.MotorPositionLow[m_MotorID-1];
             }
         
             print(sliderPos);
@@ -176,7 +186,8 @@ public class MotorSlider : MonoBehaviour
         // m_MotorDisplay.transform.eulerAngles = new Vector3(motorEuler.x, motorEuler.y, rotDeg);
 
         //Send Haptic
-        float value = m_MotorPosition / 1023f;
+        float maxPos = m_MotorDataScriptableObject.MotorPositionHigh[m_MotorID - 1];
+        float value = m_MotorPosition / maxPos;
         m_RightHand.GetComponent<XRBaseController>().SendHapticImpulse(value,.1f);
 
     }
@@ -223,6 +234,10 @@ public class MotorSlider : MonoBehaviour
         
         //Retrieve previous save state motor position
         //m_MotorPosition = motorSaveState[id];
+
+        m_Slider.minValue = m_MotorDataScriptableObject.MotorPositionLow[id];
+        m_Slider.maxValue = m_MotorDataScriptableObject.MotorPositionHigh[id];
+        
         m_Slider.value = m_MotorSaveState[id];
 
         //Debug.Log($"Motor ID: {m_MotorID}");
