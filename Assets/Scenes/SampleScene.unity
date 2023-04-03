@@ -245,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
@@ -1954,6 +1954,10 @@ PrefabInstance:
       propertyPath: rightPrimaryButton.m_Name
       value: Right Primary Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_MotorDataScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 35ab02cd8a39c744da1623c5eab77776, type: 2}
     - target: {fileID: 4094995116816893236, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
       propertyPath: rightPrimaryButton.m_SingletonActionBindings.Array.size
       value: 1
