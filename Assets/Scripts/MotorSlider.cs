@@ -53,7 +53,7 @@ public class MotorSlider : MonoBehaviour
         m_MotorSaveState = new int[m_MotorDataScriptableObject.numberOfMotors];
         for(int i = 0;i<m_MotorSaveState.Length;i++)
         {
-            m_MotorSaveState[i] = m_MotorDataScriptableObject.MotorPositionLow[i];
+            m_MotorSaveState[i] = m_MotorDataScriptableObject.MotorPositionBounds[i].low;
         }
 
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
@@ -151,13 +151,13 @@ public class MotorSlider : MonoBehaviour
             }
             
             float sliderPos = (motorEulerZ + 150) * 3.41f;
-            if (sliderPos > m_MotorDataScriptableObject.MotorPositionHigh[m_MotorID-1])
+            if (sliderPos > m_MotorDataScriptableObject.MotorPositionBounds[m_MotorID-1].high)
             {
-                sliderPos = m_MotorDataScriptableObject.MotorPositionHigh[m_MotorID-1];
+                sliderPos = m_MotorDataScriptableObject.MotorPositionBounds[m_MotorID-1].high;
             }
-            else if (sliderPos < m_MotorDataScriptableObject.MotorPositionLow[m_MotorID - 1])
+            else if (sliderPos < m_MotorDataScriptableObject.MotorPositionBounds[m_MotorID-1].low)
             {
-                sliderPos = m_MotorDataScriptableObject.MotorPositionLow[m_MotorID-1];
+                sliderPos = m_MotorDataScriptableObject.MotorPositionBounds[m_MotorID-1].low;
             }
         
             print(sliderPos);
@@ -186,7 +186,7 @@ public class MotorSlider : MonoBehaviour
         // m_MotorDisplay.transform.eulerAngles = new Vector3(motorEuler.x, motorEuler.y, rotDeg);
 
         //Send Haptic
-        float maxPos = m_MotorDataScriptableObject.MotorPositionHigh[m_MotorID - 1];
+        float maxPos = m_MotorDataScriptableObject.MotorPositionBounds[m_MotorID-1].high;
         float value = m_MotorPosition / maxPos;
         m_RightHand.GetComponent<XRBaseController>().SendHapticImpulse(value,.1f);
 
@@ -235,8 +235,8 @@ public class MotorSlider : MonoBehaviour
         //Retrieve previous save state motor position
         //m_MotorPosition = motorSaveState[id];
 
-        m_Slider.minValue = m_MotorDataScriptableObject.MotorPositionLow[id];
-        m_Slider.maxValue = m_MotorDataScriptableObject.MotorPositionHigh[id];
+        m_Slider.minValue = m_MotorDataScriptableObject.MotorPositionBounds[id].low;
+        m_Slider.maxValue = m_MotorDataScriptableObject.MotorPositionBounds[id].high;
         
         m_Slider.value = m_MotorSaveState[id];
 

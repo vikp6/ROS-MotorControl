@@ -15,3 +15,16 @@ MonoBehaviour:
   m_NumberOfMotors: 6
   m_MotorPositionLow: 00000000000000000000000000000000c800000000000000
   m_MotorPositionHigh: ff030000ff030000ff030000ff03000034030000ff030000
+  m_MotorPositionBounds:
+  - low: 0
+    high: 1023
+  - low: 0
+    high: 1023
+  - low: 0
+    high: 1023
+  - low: 0
+    high: 1023
+  - low: 200
+    high: 820
+  - low: 0
+    high: 1023

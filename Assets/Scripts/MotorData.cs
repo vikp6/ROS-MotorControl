@@ -6,28 +6,26 @@ public class MotorData : ScriptableObject
 {
     [SerializeField]
     private int m_NumberOfMotors;
-    
-    [SerializeField]
-    private List<int> m_MotorPositionLow = new List<int>();
 
-    [SerializeField]
-    private List<int> m_MotorPositionHigh = new List<int>();
-    
+    [SerializeField] 
+    private List<MotorPositionBounds> m_MotorPositionBounds = new List<MotorPositionBounds>();
+
     public int numberOfMotors
     {
         get => m_NumberOfMotors;
         set => m_NumberOfMotors = value;
     }
 
-    public List<int> MotorPositionLow
+    public List<MotorPositionBounds> MotorPositionBounds
     {
-        get => m_MotorPositionLow;
-        set => m_MotorPositionLow = value;
+        get => m_MotorPositionBounds;
+        set => m_MotorPositionBounds = value;
     }
+}
 
-    public List<int> MotorPositionHigh
-    {
-        get => m_MotorPositionHigh;
-        set => m_MotorPositionHigh = value;
-    }
+[System.Serializable]
+public struct MotorPositionBounds
+{
+    public int low;
+    public int high;
 }
