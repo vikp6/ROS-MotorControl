@@ -26,6 +26,7 @@ public class MotorData : ScriptableObject
 [System.Serializable]
 public struct MotorPositionBounds
 {
+    public int start;
     public int low;
     public int high;
 }
