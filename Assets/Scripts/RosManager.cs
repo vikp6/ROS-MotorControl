@@ -95,6 +95,6 @@ public class RosManager : MonoBehaviour
     {
         onPositionReceived?.Invoke(response.output.position);
         
-        Debug.Log($"Motor Position Service Response: {response.output.position}");
+        //Debug.Log($"Motor Position Service Response: {response.output.position}");
     }
 }

@@ -22,10 +22,21 @@ public class MotorSlider : MonoBehaviour
 
     //Saves the most recent position value of a motor before dropdown selection is changed
     private int[] m_MotorSaveState;
+    private int[] m_MotorReset;
 
     //Motor Position and ID that are constantly updated and published to ROS
     private int m_MotorPosition = 0;
     private int m_MotorID = 1;
+    
+    public int MotorPosition
+    {
+        get => m_MotorPosition;
+    }
+    
+    public int MotorID
+    {
+        get => m_MotorID;
+    }
 
     [SerializeField]
     private Slider m_Slider;
@@ -52,6 +63,9 @@ public class MotorSlider : MonoBehaviour
         {
             m_MotorSaveState[i] = m_MotorDataScriptableObject.MotorPositionBounds[i].start;
         }
+        
+        //Motor 1 set m_MotorPosition to init state
+        m_MotorPosition = m_MotorSaveState[0];
 
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
         m_RightPrimaryButton.action.Enable();
@@ -172,8 +186,11 @@ public class MotorSlider : MonoBehaviour
         m_RightHand.GetComponent<XRBaseController>().SendHapticImpulse(value,.1f);
 
     }
-    
-    
+
+    public void ChangePositionExternal(int position)
+    {
+        m_Slider.value = position;
+    }
 
     //Right Hand Rotation can control motor with this, need to get it to be enabled by an input action
     // public void handTurnMotorControl()

@@ -1672,6 +1672,74 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Motor Control",
+            "id": "a2722c49-a07f-4a42-a5e9-21e26772a585",
+            "actions": [
+                {
+                    "name": "ResetMotorState",
+                    "type": "Button",
+                    "id": "bad86eb8-c708-44ab-9dae-7aba3e39b846",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleMotors",
+                    "type": "Button",
+                    "id": "fb2141f5-b472-4c7d-be10-2f5cae4fc4d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateMotors",
+                    "type": "Value",
+                    "id": "083a8115-9306-48b4-a53e-363710cecaa3",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ffe794d8-bf7f-4ae3-9ac6-30cb3ce63e49",
+                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ResetMotorState",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a743cba1-9087-421a-a26e-b6e19dab6254",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ToggleMotors",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a4dbcb1-48e3-4fc1-9b68-24b5ea555322",
+                    "path": "<XRController>{RightHand}/primary2DAxis",
+                    "interactions": "Sector(directions=12,sweepBehavior=3)",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RotateMotors",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
