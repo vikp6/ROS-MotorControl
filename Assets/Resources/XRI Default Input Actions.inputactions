@@ -1732,7 +1732,7 @@
                     "name": "",
                     "id": "0a4dbcb1-48e3-4fc1-9b68-24b5ea555322",
                     "path": "<XRController>{RightHand}/primary2DAxis",
-                    "interactions": "Sector(directions=12,sweepBehavior=3)",
+                    "interactions": "Sector(directions=12,sweepBehavior=3,pressPoint=0.2)",
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "RotateMotors",

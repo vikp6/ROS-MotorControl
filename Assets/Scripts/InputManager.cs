@@ -20,7 +20,8 @@ public class InputManager : MonoBehaviour
     
     [SerializeField] 
     private MotorData m_MotorDataScriptableObject;
-    
+
+    private int JoystickFactor = 20;
     
     
     // Start is called before the first frame update
@@ -56,7 +57,7 @@ public class InputManager : MonoBehaviour
         
         Debug.Log($"joyx: {joystickVec.x}, joyy: {joystickVec.y}");
 
-        int newPosition = (int)(m_MotorController.MotorPosition + (joystickVec.x)*10);
+        int newPosition = (int)(m_MotorController.MotorPosition + (joystickVec.x)*JoystickFactor);
         
         m_MotorController.ChangePositionExternal(newPosition);
     }
