@@ -42,6 +42,9 @@ public class MotorSlider : MonoBehaviour
     private Slider m_Slider;
 
     [SerializeField] 
+    private TMP_Dropdown m_Dropdown;
+
+    [SerializeField] 
     private GameObject m_MotorDisplay;
 
     [SerializeField] 
@@ -236,6 +239,11 @@ public class MotorSlider : MonoBehaviour
         //Retrieve previous save state motor position
         m_Slider.value = m_MotorSaveState[id];
 
+    }
+
+    public void SetIDExternal(int id)
+    {
+        m_Dropdown.value = id;   
     }
     
 }

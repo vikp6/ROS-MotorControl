@@ -1696,13 +1696,22 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RotateMotors",
+                    "name": "RotateMotorsJoystick",
                     "type": "Value",
                     "id": "083a8115-9306-48b4-a53e-363710cecaa3",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RotateMotorsGrip",
+                    "type": "Button",
+                    "id": "502e4dba-d6cc-433f-8a58-7594dfd866ab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1735,9 +1744,53 @@
                     "interactions": "Sector(directions=12,sweepBehavior=3,pressPoint=0.2)",
                     "processors": "",
                     "groups": "Generic XR Controller",
-                    "action": "RotateMotors",
+                    "action": "RotateMotorsJoystick",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Two Modifiers",
+                    "id": "c58e57f9-fb4c-4996-a496-66c34d7fc9f3",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateMotorsGrip",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "078d7ab8-770d-4e94-9ff2-5ff1e356e482",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RotateMotorsGrip",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "ea494e13-b184-4f16-bb5b-71c11751881b",
+                    "path": "<XRController>{RightHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateMotorsGrip",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "27662a4f-d20f-4190-9533-1951b3f5983a",
+                    "path": "<XRController>{RightHand}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateMotorsGrip",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

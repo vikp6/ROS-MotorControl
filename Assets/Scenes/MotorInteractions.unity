@@ -647,18 +647,30 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 77688372050657497, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
-  m_RotateMotors:
+  m_RotateMotors_Joystick:
     m_UseReference: 1
     m_Action:
-      m_Name: Rotate Motors
+      m_Name: Rotate Motors_Joystick
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: de05b499-7f93-4077-aa0d-5990835eaecc
+      m_Id: 5fc29a7d-9bdf-496a-865a-123365890683
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 9071951477686682642, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
+  m_RotateMotors_Grip:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Rotate Motors_Grip
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 3365270a-b77e-4df6-b37c-a3de1c308094
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -9094764913210458699, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
   m_MotorController: {fileID: 1583940305}
   m_MotorDataScriptableObject: {fileID: 11400000, guid: 35ab02cd8a39c744da1623c5eab77776, type: 2}
 --- !u!1 &786826911

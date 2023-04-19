@@ -747,7 +747,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Rosmanager: {fileID: 0}
+  m_MotorDataScriptableObject: {fileID: 0}
   m_Slider: {fileID: 3145033942625736593}
+  m_Dropdown: {fileID: 7846812838550169396}
   m_MotorDisplay: {fileID: 4100903958509322600}
   m_MotorDialControl: {fileID: 0}
   m_RightHand: {fileID: 0}
