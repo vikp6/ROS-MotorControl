@@ -22,13 +22,27 @@ public class MotorSlider : MonoBehaviour
 
     //Saves the most recent position value of a motor before dropdown selection is changed
     private int[] m_MotorSaveState;
+    private int[] m_MotorReset;
 
     //Motor Position and ID that are constantly updated and published to ROS
     private int m_MotorPosition = 0;
     private int m_MotorID = 1;
+    
+    public int MotorPosition
+    {
+        get => m_MotorPosition;
+    }
+    
+    public int MotorID
+    {
+        get => m_MotorID;
+    }
 
     [SerializeField]
     private Slider m_Slider;
+
+    [SerializeField] 
+    private TMP_Dropdown m_Dropdown;
 
     [SerializeField] 
     private GameObject m_MotorDisplay;
@@ -41,6 +55,13 @@ public class MotorSlider : MonoBehaviour
 
     [SerializeField] 
     private InputActionReference m_RightPrimaryButton;
+
+    [SerializeField] 
+    private InputActionReference m_MenuToggleButton;
+
+    private bool m_MenuState = true;
+    private Vector3 m_OriginalMenuScale;
+    private Vector3 m_OriginalMenuLocalPos;
     
     private TextMeshPro[] m_PositionText;
     
@@ -52,10 +73,18 @@ public class MotorSlider : MonoBehaviour
         {
             m_MotorSaveState[i] = m_MotorDataScriptableObject.MotorPositionBounds[i].start;
         }
+        
+        //Motor 1 set m_MotorPosition to init state
+        m_MotorPosition = m_MotorSaveState[0];
 
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
         m_RightPrimaryButton.action.Enable();
         m_RightPrimaryButton.action.started += DialControl;
+        
+        m_MenuToggleButton.action.Enable();
+        m_MenuToggleButton.action.started += MenuToggle;
+        m_OriginalMenuScale = gameObject.transform.localScale;
+        m_OriginalMenuLocalPos = gameObject.transform.localPosition;
         
         RosManager.onPositionReceived += OnPositionReceived;
     }
@@ -81,6 +110,25 @@ public class MotorSlider : MonoBehaviour
         //Query motor position from ROS
         m_Rosmanager.QueryMotorPosition(m_MotorID);
 
+    }
+
+    private void MenuToggle(InputAction.CallbackContext callbackContext)
+    {
+        if (m_MenuState)
+        {
+            gameObject.transform.localScale = new Vector3(0.000001f, 0.000001f, 0.000001f);
+            //gameObject.transform.localPosition = new Vector3(0, 0, 0);
+            
+            Debug.Log($"Entered Toggle Off");
+            m_MenuState = false;
+        }
+        else
+        {
+            gameObject.transform.localScale = m_OriginalMenuScale;
+            //gameObject.transform.localPosition = m_OriginalMenuLocalPos;
+            m_MenuState = true;
+        }
+        
     }
 
     private void OnPositionReceived(int receivedPosition)
@@ -172,8 +220,11 @@ public class MotorSlider : MonoBehaviour
         m_RightHand.GetComponent<XRBaseController>().SendHapticImpulse(value,.1f);
 
     }
-    
-    
+
+    public void ChangePositionExternal(int position)
+    {
+        m_Slider.value = position;
+    }
 
     //Right Hand Rotation can control motor with this, need to get it to be enabled by an input action
     // public void handTurnMotorControl()
@@ -219,6 +270,11 @@ public class MotorSlider : MonoBehaviour
         //Retrieve previous save state motor position
         m_Slider.value = m_MotorSaveState[id];
 
+    }
+
+    public void SetIDExternal(int id)
+    {
+        m_Dropdown.value = id;   
     }
     
 }

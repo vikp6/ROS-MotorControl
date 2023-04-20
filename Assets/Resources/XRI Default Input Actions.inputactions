@@ -1672,6 +1672,147 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Motor Control",
+            "id": "a2722c49-a07f-4a42-a5e9-21e26772a585",
+            "actions": [
+                {
+                    "name": "ResetMotorState",
+                    "type": "Button",
+                    "id": "bad86eb8-c708-44ab-9dae-7aba3e39b846",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchMotorsInc",
+                    "type": "Button",
+                    "id": "fb2141f5-b472-4c7d-be10-2f5cae4fc4d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateMotorsJoystick",
+                    "type": "Value",
+                    "id": "083a8115-9306-48b4-a53e-363710cecaa3",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RotateMotorsGrip",
+                    "type": "Value",
+                    "id": "502e4dba-d6cc-433f-8a58-7594dfd866ab",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ToggleMenu",
+                    "type": "Button",
+                    "id": "9435b4c0-b28e-4bbb-bdc7-baa2e956746d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ffe794d8-bf7f-4ae3-9ac6-30cb3ce63e49",
+                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ResetMotorState",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a743cba1-9087-421a-a26e-b6e19dab6254",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "SwitchMotorsInc",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a4dbcb1-48e3-4fc1-9b68-24b5ea555322",
+                    "path": "<XRController>{RightHand}/primary2DAxis",
+                    "interactions": "Sector(directions=12,sweepBehavior=3,pressPoint=0.2)",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RotateMotorsJoystick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Two Modifiers",
+                    "id": "c58e57f9-fb4c-4996-a496-66c34d7fc9f3",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateMotorsGrip",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "078d7ab8-770d-4e94-9ff2-5ff1e356e482",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RotateMotorsGrip",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "ea494e13-b184-4f16-bb5b-71c11751881b",
+                    "path": "<XRController>{RightHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RotateMotorsGrip",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "27662a4f-d20f-4190-9533-1951b3f5983a",
+                    "path": "<XRController>{RightHand}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RotateMotorsGrip",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "5e2e613b-23f2-4210-b234-51e0cca28fc9",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ToggleMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
