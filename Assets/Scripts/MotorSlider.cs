@@ -55,6 +55,13 @@ public class MotorSlider : MonoBehaviour
 
     [SerializeField] 
     private InputActionReference m_RightPrimaryButton;
+
+    [SerializeField] 
+    private InputActionReference m_MenuToggleButton;
+
+    private bool m_MenuState = true;
+    private Vector3 m_OriginalMenuScale;
+    private Vector3 m_OriginalMenuLocalPos;
     
     private TextMeshPro[] m_PositionText;
     
@@ -73,6 +80,11 @@ public class MotorSlider : MonoBehaviour
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
         m_RightPrimaryButton.action.Enable();
         m_RightPrimaryButton.action.started += DialControl;
+        
+        m_MenuToggleButton.action.Enable();
+        m_MenuToggleButton.action.started += MenuToggle;
+        m_OriginalMenuScale = gameObject.transform.localScale;
+        m_OriginalMenuLocalPos = gameObject.transform.localPosition;
         
         RosManager.onPositionReceived += OnPositionReceived;
     }
@@ -98,6 +110,25 @@ public class MotorSlider : MonoBehaviour
         //Query motor position from ROS
         m_Rosmanager.QueryMotorPosition(m_MotorID);
 
+    }
+
+    private void MenuToggle(InputAction.CallbackContext callbackContext)
+    {
+        if (m_MenuState)
+        {
+            gameObject.transform.localScale = new Vector3(0.000001f, 0.000001f, 0.000001f);
+            //gameObject.transform.localPosition = new Vector3(0, 0, 0);
+            
+            Debug.Log($"Entered Toggle Off");
+            m_MenuState = false;
+        }
+        else
+        {
+            gameObject.transform.localScale = m_OriginalMenuScale;
+            //gameObject.transform.localPosition = m_OriginalMenuLocalPos;
+            m_MenuState = true;
+        }
+        
     }
 
     private void OnPositionReceived(int receivedPosition)

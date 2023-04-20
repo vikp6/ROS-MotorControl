@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,10 +25,13 @@ public class InputManager : MonoBehaviour
     [SerializeField] 
     private MotorData m_MotorDataScriptableObject;
 
+    [SerializeField] 
+    private GameObject m_LeftHand;
+
     private int JoystickFactor = 20;
 
     private Vector3 m_RightGripStartPosition;
-    
+    private Vector3 m_LeftGripStartPosition;
     
     // Start is called before the first frame update
     void Start()
@@ -58,6 +62,7 @@ public class InputManager : MonoBehaviour
         m_RotateMotors_Grip.reference.action.started += ctx =>
         {
             m_RightGripStartPosition = ctx.ReadValue<Vector3>();
+            m_LeftGripStartPosition = m_LeftHand.transform.position;
         };
         m_RotateMotors_Grip.reference.action.performed += ctx => MotorPosChangeGrip(ctx);
         
@@ -76,15 +81,42 @@ public class InputManager : MonoBehaviour
 
     private void MotorPosChangeGrip(InputAction.CallbackContext ctx)
     {
-        Vector3 currentGripVec = ctx.ReadValue<Vector3>();
-        
-        Debug.Log($"Original X: {m_RightGripStartPosition.x}, Current X: {currentGripVec.x}");
+        Vector3 currentRightGripVec = ctx.ReadValue<Vector3>();
+        Vector3 currentLeftGripVec = m_LeftHand.transform.position;
 
-        float delta = currentGripVec.x - m_RightGripStartPosition.x;
+        float rightDelta = currentRightGripVec.y - m_RightGripStartPosition.y;
+        float leftDelta = currentLeftGripVec.y - m_LeftGripStartPosition.y;
 
-        int newPosition = (int)(m_MotorController.MotorPosition + delta * 10);
+        //Using 2 different interaction methods
         
-        m_MotorController.ChangePositionExternal(newPosition);
+        if (m_MotorController.MotorID > 2)
+        {
+            //Debug.Log($"Original X: {m_RightGripStartPosition.x}, Current X: {currentRightGripVec.x}");
+
+            float delta = currentRightGripVec.x - m_RightGripStartPosition.x;
+
+            int newPosition = (int)(m_MotorController.MotorPosition + delta * 10);
+        
+            m_MotorController.ChangePositionExternal(newPosition);
+        }
+        else
+        {
+            float changeFactor = rightDelta - leftDelta;
+            if (changeFactor < 0.2 & changeFactor > -0.2)
+            {
+                changeFactor = 0;
+            }
+            else
+            {
+                changeFactor = changeFactor * 5;
+            }
+            
+            int newPosition = (int)(m_MotorController.MotorPosition + changeFactor);
+            Debug.Log($"ChangeFactor: {newPosition}");
+            
+            m_MotorController.ChangePositionExternal(newPosition);
+        }
+
 
     }
 

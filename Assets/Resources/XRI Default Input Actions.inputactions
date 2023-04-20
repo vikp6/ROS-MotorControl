@@ -1687,7 +1687,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleMotors",
+                    "name": "SwitchMotorsInc",
                     "type": "Button",
                     "id": "fb2141f5-b472-4c7d-be10-2f5cae4fc4d3",
                     "expectedControlType": "Button",
@@ -1706,8 +1706,17 @@
                 },
                 {
                     "name": "RotateMotorsGrip",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "502e4dba-d6cc-433f-8a58-7594dfd866ab",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ToggleMenu",
+                    "type": "Button",
+                    "id": "9435b4c0-b28e-4bbb-bdc7-baa2e956746d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1733,7 +1742,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
-                    "action": "ToggleMotors",
+                    "action": "SwitchMotorsInc",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1776,7 +1785,7 @@
                     "path": "<XRController>{RightHand}/gripPressed",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Generic XR Controller",
                     "action": "RotateMotorsGrip",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -1787,10 +1796,21 @@
                     "path": "<XRController>{RightHand}/devicePosition",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Generic XR Controller",
                     "action": "RotateMotorsGrip",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "5e2e613b-23f2-4210-b234-51e0cca28fc9",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ToggleMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

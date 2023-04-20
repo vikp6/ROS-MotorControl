@@ -754,6 +754,7 @@ MonoBehaviour:
   m_MotorDialControl: {fileID: 0}
   m_RightHand: {fileID: 0}
   m_RightPrimaryButton: {fileID: 0}
+  m_MenuToggleButton: {fileID: 0}
 --- !u!1 &4771558313307837608
 GameObject:
   m_ObjectHideFlags: 0
