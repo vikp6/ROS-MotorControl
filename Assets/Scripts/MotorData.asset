@@ -14,21 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NumberOfMotors: 6
   m_MotorPositionBounds:
-  - start: 150
-    low: 0
-    high: 1023
   - start: 200
     low: 100
-    high: 1023
-  - start: 350
-    low: 0
-    high: 1023
-  - start: 154
-    low: 0
-    high: 1023
-  - start: 575
-    low: 200
-    high: 820
-  - start: 515
+    high: 900
+  - start: 520
+    low: 450
+    high: 760
+  - start: 495
+    low: 50
+    high: 800
+  - start: 550
+    low: 500
+    high: 925
+  - start: 480
+    low: 400
+    high: 600
+  - start: 580
     low: 0
     high: 1023
