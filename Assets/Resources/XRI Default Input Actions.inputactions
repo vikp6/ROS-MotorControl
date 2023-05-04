@@ -1721,6 +1721,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Calibrate",
+                    "type": "Value",
+                    "id": "db22b7df-5087-4946-8dec-1ef621117f88",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1804,13 +1813,57 @@
                 {
                     "name": "",
                     "id": "5e2e613b-23f2-4210-b234-51e0cca28fc9",
-                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "path": "<XRController>{LeftHand}/menuButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "ToggleMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Two Modifiers",
+                    "id": "fbafc8da-8323-438c-ab8e-da3978196c6c",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Calibrate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "7bb9909f-66c3-4cb6-8ecb-6c2ca6954f04",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Calibrate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "3330076b-f140-4dbe-b405-27b5453c2f5d",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Calibrate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "641d7eec-207b-4591-a8c5-fd9d714c6a93",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Calibrate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

@@ -32,6 +32,9 @@ public class InputManager : MonoBehaviour
 
     private Vector3 m_RightGripStartPosition;
     private Vector3 m_LeftGripStartPosition;
+    private int m_MotorCurrStartPos;
+
+    private int m_InteractionFactor = 200;
     
     // Start is called before the first frame update
     void Start()
@@ -63,6 +66,8 @@ public class InputManager : MonoBehaviour
         {
             m_RightGripStartPosition = ctx.ReadValue<Vector3>();
             m_LeftGripStartPosition = m_LeftHand.transform.position;
+
+            m_MotorCurrStartPos = m_MotorController.MotorPosition;
         };
         m_RotateMotors_Grip.reference.action.performed += ctx => MotorPosChangeGrip(ctx);
         
@@ -95,23 +100,23 @@ public class InputManager : MonoBehaviour
 
             float delta = currentRightGripVec.x - m_RightGripStartPosition.x;
 
-            int newPosition = (int)(m_MotorController.MotorPosition + delta * 10);
+            int newPosition = (int)(m_MotorCurrStartPos + delta * m_InteractionFactor);
         
             m_MotorController.ChangePositionExternal(newPosition);
         }
         else
         {
             float changeFactor = rightDelta - leftDelta;
-            if (changeFactor < 0.2 & changeFactor > -0.2)
-            {
-                changeFactor = 0;
-            }
-            else
-            {
-                changeFactor = changeFactor * 5;
-            }
+            // if (changeFactor < 0.2 & changeFactor > -0.2)
+            // {
+            //     changeFactor = 0;
+            // }
+            // else
+            // {
+            //     changeFactor = changeFactor * 5;
+            // }
             
-            int newPosition = (int)(m_MotorController.MotorPosition + changeFactor);
+            int newPosition = (int)(m_MotorCurrStartPos + changeFactor*m_InteractionFactor);
             Debug.Log($"ChangeFactor: {newPosition}");
             
             m_MotorController.ChangePositionExternal(newPosition);
