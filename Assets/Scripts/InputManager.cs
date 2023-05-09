@@ -59,8 +59,10 @@ public class InputManager : MonoBehaviour
     
     private void SetupCallbacks()
     {
+        WheelSelector.onMotorWheelSelected += OnMotorWheelSelected;
+        
         m_ResetMotorPositions.reference.action.started += _ => ResetMotorState();
-        m_ToggleMotors.reference.action.started += _ => ToggleMotors();
+        //m_ToggleMotors.reference.action.started += _ => ToggleMotors();
         m_RotateMotors_Joystick.reference.action.performed += ctx => MotorPosChangeJoystick(ctx);
         m_RotateMotors_Grip.reference.action.started += ctx =>
         {
@@ -71,6 +73,14 @@ public class InputManager : MonoBehaviour
         };
         m_RotateMotors_Grip.reference.action.performed += ctx => MotorPosChangeGrip(ctx);
         
+    }
+    
+    //Motor Select from Wheel Select, Callback
+    private void OnMotorWheelSelected(int newID, Color filterColor)
+    {
+        Debug.Log($"newID: {newID}");
+        
+        m_MotorController.SetIDExternal(newID);
     }
 
     private void MotorPosChangeJoystick(InputAction.CallbackContext ctx)
@@ -151,18 +161,18 @@ public class InputManager : MonoBehaviour
         
     }
 
-    private void ToggleMotors()
-    {
-
-        int newID = m_MotorController.MotorID;
-        if (newID == m_MotorDataScriptableObject.numberOfMotors)
-        {
-            newID = 0;
-        }
-        
-        Debug.Log($"newID: {newID}");
-        
-        m_MotorController.SetIDExternal(newID);
-    }
+    // private void ToggleMotors()
+    // {
+    //
+    //     int newID = m_MotorController.MotorID;
+    //     if (newID == m_MotorDataScriptableObject.numberOfMotors)
+    //     {
+    //         newID = 0;
+    //     }
+    //     
+    //     Debug.Log($"newID: {newID}");
+    //     
+    //     m_MotorController.SetIDExternal(newID);
+    // }
     
 }
