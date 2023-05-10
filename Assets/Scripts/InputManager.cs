@@ -87,10 +87,18 @@ public class InputManager : MonoBehaviour
         {
             m_RightGripStartPosition = ctx.ReadValue<Vector3>();
             m_LeftGripStartPosition = m_LeftHand.transform.position;
+            
+            m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = false;
+            m_LeftHand.GetComponentInChildren<XRRayInteractor>().enabled = false;
 
             m_MotorCurrStartPos = m_MotorController.MotorPosition;
         };
         m_RotateMotors_Grip.reference.action.performed += ctx => MotorPosChangeGrip(ctx);
+        m_RotateMotors_Grip.reference.action.canceled += ctx =>
+        {
+            m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
+            m_LeftHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
+        };
         
         //Calibrate Input Action
         m_CalibrateArea.reference.action.started += ctx =>
@@ -171,19 +179,35 @@ public class InputManager : MonoBehaviour
     {
         Vector3 currentRightGripVec = ctx.ReadValue<Vector3>();
         Vector3 currentLeftGripVec = m_LeftHand.transform.position;
-
+        
+        //Up Down Interaction
         float rightDelta = currentRightGripVec.y - m_RightGripStartPosition.y;
         float leftDelta = currentLeftGripVec.y - m_LeftGripStartPosition.y;
-
-        //Using 2 different interaction methods
         
-        if (m_MotorController.MotorID > 2)
+        //Wheel Interaction
+        Vector3 vecA = m_RightGripStartPosition - m_LeftGripStartPosition;
+        Vector3 vecB = currentRightGripVec - m_LeftGripStartPosition;
+        
+        float angle = Mathf.Acos((vecA.x*vecB.x+vecA.y*vecB.y+vecA.z*vecB.z)/(Mathf.Sqrt(vecA.x*vecA.x+vecA.y*vecA.y+vecA.z*vecA.z)*Mathf.Sqrt(vecB.x*vecB.x+vecB.y*vecB.y+vecB.z*vecB.z)))*Mathf.Rad2Deg;
+
+        //float angle = Mathf.Atan2(Vector3.Cross(vecA, vecB).magnitude, Vector3.Dot(vecA, vecB))*Mathf.Rad2Deg;
+        Debug.Log($"Angle: {angle}");
+
+        //Using 3 different interaction methods
+        
+        if (m_MotorController.MotorID==1 | m_MotorController.MotorID==2)
         {
             //Debug.Log($"Original X: {m_RightGripStartPosition.x}, Current X: {currentRightGripVec.x}");
 
             float delta = currentRightGripVec.x - m_RightGripStartPosition.x;
 
-            int newPosition = (int)(m_MotorCurrStartPos + delta * m_InteractionFactor);
+            int newPosition = (int)(m_MotorCurrStartPos + delta * m_InteractionFactor*1.5);
+        
+            m_MotorController.ChangePositionExternal(newPosition);
+        }
+        else if(m_MotorController.MotorID==3 | m_MotorController.MotorID==4)
+        {
+            int newPosition = (int)(m_MotorCurrStartPos + angle);
         
             m_MotorController.ChangePositionExternal(newPosition);
         }
