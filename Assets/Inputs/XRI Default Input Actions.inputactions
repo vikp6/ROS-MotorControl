@@ -1844,7 +1844,7 @@
                 {
                     "name": "modifier1",
                     "id": "7bb9909f-66c3-4cb6-8ecb-6c2ca6954f04",
-                    "path": "",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1855,7 +1855,7 @@
                 {
                     "name": "modifier2",
                     "id": "3330076b-f140-4dbe-b405-27b5453c2f5d",
-                    "path": "",
+                    "path": "<XRController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1866,7 +1866,7 @@
                 {
                     "name": "binding",
                     "id": "641d7eec-207b-4591-a8c5-fd9d714c6a93",
-                    "path": "",
+                    "path": "<XRController>{RightHand}/devicePosition",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

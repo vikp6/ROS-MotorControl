@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class InputManager : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class InputManager : MonoBehaviour
     
     [SerializeField] 
     private InputActionProperty m_RotateMotors_Grip;
+
+    [SerializeField] 
+    private InputActionProperty m_CalibrateArea;
     
     [SerializeField] 
     private MotorSlider m_MotorController;
@@ -28,6 +32,15 @@ public class InputManager : MonoBehaviour
     [SerializeField] 
     private GameObject m_LeftHand;
 
+    [SerializeField] 
+    private GameObject m_RightHand;
+
+    [SerializeField]
+    private LineRenderer m_CalibrationVisualLine;
+
+    [SerializeField] 
+    private GameObject m_CalibrationCube;
+
     private int JoystickFactor = 20;
 
     private Vector3 m_RightGripStartPosition;
@@ -35,6 +48,11 @@ public class InputManager : MonoBehaviour
     private int m_MotorCurrStartPos;
 
     private int m_InteractionFactor = 200;
+
+    private Vector3 m_CalibrationStartPoint;
+    private Vector3 m_CalibrationDrag;
+
+    private float m_RealCubeDim = 78;
     
     // Start is called before the first frame update
     void Start()
@@ -55,6 +73,7 @@ public class InputManager : MonoBehaviour
         m_ToggleMotors.reference.action.Enable();
         m_RotateMotors_Joystick.reference.action.Enable();
         m_RotateMotors_Grip.reference.action.Enable();
+        m_CalibrateArea.reference.action.Enable();
     }
     
     private void SetupCallbacks()
@@ -73,6 +92,60 @@ public class InputManager : MonoBehaviour
         };
         m_RotateMotors_Grip.reference.action.performed += ctx => MotorPosChangeGrip(ctx);
         
+        //Calibrate Input Action
+        m_CalibrateArea.reference.action.started += ctx =>
+        {
+            
+            m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = false;
+            
+            m_CalibrationStartPoint = m_RightHand.transform.position;
+            m_CalibrationStartPoint += m_RightHand.transform.forward*0.05f;
+
+            m_CalibrationVisualLine.enabled = true;
+
+            m_CalibrationVisualLine.startWidth = 0.01f;
+            m_CalibrationVisualLine.endWidth = 0.01f;
+            m_CalibrationVisualLine.SetPosition(0, m_CalibrationStartPoint);
+            
+            
+
+        };
+        m_CalibrateArea.reference.action.performed += ctx =>
+        {
+            m_CalibrationDrag = m_RightHand.transform.position;
+            m_CalibrationDrag += m_RightHand.transform.forward*0.05f;
+            
+            
+            
+            //Set Calibration Visualizer position to be at drag position
+            m_CalibrationVisualLine.SetPosition(1, m_CalibrationDrag);
+
+        };
+        m_CalibrateArea.reference.action.canceled += ctx => CalibrationVisuals(ctx);
+
+    }
+    
+    //Visual Pointers to each of the Motors will be Created Here based on Calibration
+    private void CalibrationVisuals(InputAction.CallbackContext ctx)
+    {
+        Vector3 finalDragPosition = m_CalibrationDrag;
+        
+        m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
+        m_CalibrationVisualLine.enabled = false;
+        m_CalibrationCube.SetActive(true);
+
+        float distance = Vector3.Distance(m_CalibrationStartPoint, finalDragPosition);
+        
+        m_CalibrationCube.transform.localScale = new Vector3(distance/Mathf.Sqrt(2), distance/Mathf.Sqrt(2), distance/Mathf.Sqrt(2));
+        m_CalibrationCube.transform.position = (m_CalibrationStartPoint + finalDragPosition) / 2;
+
+        m_CalibrationCube.transform.up = finalDragPosition - m_CalibrationStartPoint;
+        
+        m_CalibrationCube.transform.rotation *= Quaternion.AngleAxis(135f, m_CalibrationCube.transform.forward);
+        //m_CalibrationCube.transform.rotation *= Quaternion.AngleAxis(180f, m_CalibrationCube.transform.right);
+        
+        m_CalibrationCube.transform.position += m_CalibrationCube.transform.forward*((distance/Mathf.Sqrt(2))/2);
+
     }
     
     //Motor Select from Wheel Select, Callback
