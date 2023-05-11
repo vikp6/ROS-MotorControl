@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class WheelSelector : MonoBehaviour
@@ -14,7 +15,7 @@ public class WheelSelector : MonoBehaviour
 
     [SerializeField] private GameObject m_LeftController;
 
-    [SerializeField] private GameObject m_XRCamera;
+    [SerializeField] private GameObject m_WheelOrientTo;
     
     private Vector3 m_WheelCenter;
 
@@ -22,7 +23,7 @@ public class WheelSelector : MonoBehaviour
 
     private float m_Radius = 0.25f;
 
-    private int m_NumofOptions = 6;
+    private int m_NumofOptions = 4;
 
     private GameObject[] m_WheelChoices;
 
@@ -32,7 +33,7 @@ public class WheelSelector : MonoBehaviour
 
     private int m_FinalWheelSelection;
 
-    private string[] m_FilterNames = {"Motor 1","Motor 2", "Motor 3", "Motor 4", "Motor 5", "Motor 6"};
+    private string[] m_FilterNames = {"Obs 1","Obs 2", "Obs 3", "Obs 4", "Motor 5", "Motor 6"};
     
     public static event Action<int,Color> onMotorWheelSelected;
     
@@ -63,7 +64,7 @@ public class WheelSelector : MonoBehaviour
         {
             m_WheelCenter = m_LeftController.transform.position;
 
-            m_CameraRightDirection = m_XRCamera.transform.right;
+            m_CameraRightDirection = m_WheelOrientTo.transform.right;
             
             Debug.Log($"Forward: {m_LeftController.transform.forward}");
             
@@ -79,7 +80,7 @@ public class WheelSelector : MonoBehaviour
                 //Change this
                 Transform newTransform = m_SelectionVisualPrefab.transform;
                 
-                newTransform.rotation = Quaternion.LookRotation(m_XRCamera.transform.right,m_XRCamera.transform.forward);
+                newTransform.rotation = Quaternion.LookRotation(m_WheelOrientTo.transform.right,m_WheelOrientTo.transform.forward);
                 
                 newTransform.position = new Vector3((m_WheelCenter.x + m_CameraRightDirection.x*newposition.x), m_WheelCenter.y + newposition.y, (m_WheelCenter.z + m_CameraRightDirection.z*newposition.x));
 

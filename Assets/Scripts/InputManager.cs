@@ -27,6 +27,9 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] 
     private InputActionProperty m_CalibrateArea;
+
+    [SerializeField] 
+    private InputActionProperty m_RightPrimaryButton;
     
     [SerializeField] 
     private MotorSlider m_MotorController;
@@ -52,13 +55,20 @@ public class InputManager : MonoBehaviour
     [SerializeField] 
     private GameObject m_InteractionVisual;
 
-    private int JoystickFactor = 20;
+    private int JoystickFactor = 15;
 
     private Vector3 m_RightGripStartPosition;
     private Vector3 m_LeftGripStartPosition;
     private int m_MotorCurrStartPos;
 
+    //Interaction
     private int m_InteractionFactor = 200;
+    private Vector3 startInteractionMidpoint;
+    private Vector3 calculatedZeroDegVec_HorizontalSteer;
+    private Vector3 calculatedZeroDegVec_VerticalSteer;
+
+    private int twoDOFToggleThresh = 20;
+    
 
     private Vector3 m_CalibrationStartPoint;
     private Vector3 m_CalibrationDrag;
@@ -85,6 +95,7 @@ public class InputManager : MonoBehaviour
         m_RotateMotors_Joystick.reference.action.Enable();
         m_RotateMotors_Grip.reference.action.Enable();
         m_CalibrateArea.reference.action.Enable();
+        m_RightPrimaryButton.reference.action.Enable();
     }
     
     private void SetupCallbacks()
@@ -96,19 +107,65 @@ public class InputManager : MonoBehaviour
         m_RotateMotors_Joystick.reference.action.performed += ctx => MotorPosChangeJoystick(ctx);
         m_RotateMotors_Grip.reference.action.started += ctx =>
         {
-            m_RightGripStartPosition = ctx.ReadValue<Vector3>();
+            m_RightGripStartPosition = m_RightHand.transform.position;
             m_LeftGripStartPosition = m_LeftHand.transform.position;
             
             m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = false;
             m_LeftHand.GetComponentInChildren<XRRayInteractor>().enabled = false;
 
             m_MotorCurrStartPos = m_MotorController.MotorPosition;
+            
+            //Steering Wheel Interaction
+            startInteractionMidpoint = (m_RightGripStartPosition + m_LeftGripStartPosition) / 2;
+
+            m_InteractionVisual.transform.position = startInteractionMidpoint;
+
+            float radius = Vector3.Distance(m_RightGripStartPosition, startInteractionMidpoint);
+
+            //Horizontal Steer
+            calculatedZeroDegVec_HorizontalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, Vector3.up).normalized * radius;
+            
+            //Vertical Steer
+            calculatedZeroDegVec_VerticalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, m_XROrigin.transform.forward*-1).normalized * radius;
+
+            
         };
         m_RotateMotors_Grip.reference.action.performed += ctx => MotorPosChangeGrip(ctx);
         m_RotateMotors_Grip.reference.action.canceled += ctx =>
         {
             m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
             m_LeftHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
+        };
+        
+        //Toggle Within Clump Obstacles
+        m_RightPrimaryButton.reference.action.started += _ =>
+        {
+            
+            m_RightGripStartPosition = m_RightHand.transform.position;
+            m_LeftGripStartPosition = m_LeftHand.transform.position;
+
+            if(m_MotorController.MotorID==1) m_MotorController.SetIDExternal(2);
+            else if(m_MotorController.MotorID==4) m_MotorController.SetIDExternal(4);
+            else if(m_MotorController.MotorID==3) m_MotorController.SetIDExternal(0);
+            else if(m_MotorController.MotorID==5) m_MotorController.SetIDExternal(3);
+            
+            //RESET WHEEL INTERACTION PARAMETERS
+            m_MotorCurrStartPos = m_MotorController.MotorPosition;
+            
+            //Steering Wheel Interaction
+            startInteractionMidpoint = (m_RightGripStartPosition + m_LeftGripStartPosition) / 2;
+
+            m_InteractionVisual.transform.position = startInteractionMidpoint;
+
+            float radius = Vector3.Distance(m_RightGripStartPosition, startInteractionMidpoint);
+
+            //Horizontal Steer
+            calculatedZeroDegVec_HorizontalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, Vector3.up).normalized * radius;
+            
+            //Vertical Steer
+            calculatedZeroDegVec_VerticalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, m_XROrigin.transform.forward*-1).normalized * radius;
+            
+            
         };
         
         //Calibrate Input Action
@@ -171,8 +228,27 @@ public class InputManager : MonoBehaviour
     private void OnMotorWheelSelected(int newID, Color filterColor)
     {
         Debug.Log($"newID: {newID}");
+
+        switch (newID)
+        {
+            case 0:
+                m_MotorController.SetIDExternal(5);
+                break;
+            
+            case 1:
+                m_MotorController.SetIDExternal(3);
+                break;
+                
+            case 2:
+                m_MotorController.SetIDExternal(1);
+                break;
+            
+            case 3:
+                m_MotorController.SetIDExternal(0);
+                break;
+        }
         
-        m_MotorController.SetIDExternal(newID);
+        
     }
 
     private void MotorPosChangeJoystick(InputAction.CallbackContext ctx)
@@ -188,104 +264,133 @@ public class InputManager : MonoBehaviour
 
     private void MotorPosChangeGrip(InputAction.CallbackContext ctx)
     {
-        Vector3 currentRightGripVec = ctx.ReadValue<Vector3>();
+        Vector3 currentRightGripVec = m_RightHand.transform.position;
         Vector3 currentLeftGripVec = m_LeftHand.transform.position;
         
-        //Up Down Interaction
-        float rightDelta = currentRightGripVec.y - m_RightGripStartPosition.y;
-        float leftDelta = currentLeftGripVec.y - m_LeftGripStartPosition.y;
+        // //Up Down Interaction
+        // float rightDelta = currentRightGripVec.y - m_RightGripStartPosition.y;
+        // float leftDelta = currentLeftGripVec.y - m_LeftGripStartPosition.y;
         
-        //Steering Wheel Interaction
-        // Vector3 vecA = m_RightGripStartPosition - m_LeftGripStartPosition;
-        // Vector3 vecB = currentRightGripVec - m_LeftGripStartPosition;
+        // //Steering Wheel Interaction
+        // Vector3 startMidpoint = (m_RightGripStartPosition + m_LeftGripStartPosition) / 2;
         //
-        // float angle = Mathf.Acos((vecA.x*vecB.x+vecA.y*vecB.y+vecA.z*vecB.z)/(Mathf.Sqrt(vecA.x*vecA.x+vecA.y*vecA.y+vecA.z*vecA.z)*Mathf.Sqrt(vecB.x*vecB.x+vecB.y*vecB.y+vecB.z*vecB.z)))*Mathf.Rad2Deg;
-
-        //float angle = Mathf.Atan2(Vector3.Cross(vecA, vecB).magnitude, Vector3.Dot(vecA, vecB))*Mathf.Rad2Deg;
-        // Debug.Log($"Angle: {angle}");
-
-        //Using 3 different interaction methods
+        // m_InteractionVisual.transform.position = startMidpoint;
+        //
+        // float radius = Vector3.Distance(m_RightGripStartPosition, startMidpoint);
+        //
+        // //Horizontal Steer
+        // Vector3 calculatedZeroDegVec_HorizontalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, Vector3.up).normalized * radius;
         
-        if (m_MotorController.MotorID==3 | m_MotorController.MotorID==5)
+        m_InteractionVisual.transform.forward = -1*calculatedZeroDegVec_HorizontalSteer;
+            
+        Vector3 vecRH = currentRightGripVec - startInteractionMidpoint;
+        Vector3 vecLH = currentLeftGripVec - startInteractionMidpoint;
+            
+        float angleRH = Vector3.Angle(vecRH, calculatedZeroDegVec_HorizontalSteer);
+        float angleLH = Vector3.Angle(vecLH, calculatedZeroDegVec_HorizontalSteer);
+        
+        m_InteractionVisual.GetComponentInChildren<TextMeshProUGUI>().text = "R: "+angleRH+"\n"+"L: "+angleLH;
+
+        // //Vertical Steer
+        // Vector3 calculatedZeroDegVec_VerticalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, m_XROrigin.transform.forward*-1).normalized * radius;
+
+        Vector3 vecRV = currentRightGripVec - startInteractionMidpoint;
+        Vector3 vecLV = currentLeftGripVec - startInteractionMidpoint;
+            
+        float angleRV = Vector3.Angle(vecRV, calculatedZeroDegVec_VerticalSteer);
+        float angleLV = Vector3.Angle(vecLV, calculatedZeroDegVec_VerticalSteer);
+        
+        
+        
+        if (m_MotorController.MotorID==1 | m_MotorController.MotorID==4)
         {
             
-            //Vertical Steer Testing
-            Vector3 startMidpoint = (m_RightGripStartPosition + m_LeftGripStartPosition) / 2;
+            //Horizontal Steer
+            float constant = 2;
+            if (m_MotorController.MotorID == 1) constant = 2.5f;
             
-            float radius = Vector3.Distance(m_RightGripStartPosition, startMidpoint);
-
-            Vector3 calculatedZeroDegVec = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, m_XROrigin.transform.forward*-1).normalized * radius;
-
-            Vector3 vecR = currentRightGripVec - startMidpoint;
-            Vector3 vecL = currentLeftGripVec - startMidpoint;
-            
-            float angleR = Vector3.Angle(vecR, calculatedZeroDegVec);
-            float angleL = Vector3.Angle(vecL, calculatedZeroDegVec);
-
-            float constant = 1;
-            if (m_MotorController.MotorID == 3) constant = 2;
-            
-            int newPosition = (int)(m_MotorCurrStartPos+(angleR-angleL)*constant);
+            int newPosition = (int)(m_MotorCurrStartPos+(angleRH-angleLH)*constant);
 
             m_MotorController.ChangePositionExternal(newPosition);
+
+
+            if (angleRV - angleLV > twoDOFToggleThresh | angleRV - angleLV < -twoDOFToggleThresh)
+            {
+                if(m_MotorController.MotorID==1) m_MotorController.SetIDExternal(2);
+                if(m_MotorController.MotorID==4) m_MotorController.SetIDExternal(4);
+                
+                //RESET WHEEL INTERACTION PARAMETERS
+                m_MotorCurrStartPos = m_MotorController.MotorPosition;
+            
+                //Steering Wheel Interaction
+                startInteractionMidpoint = (currentRightGripVec + currentLeftGripVec) / 2;
+
+                m_InteractionVisual.transform.position = startInteractionMidpoint;
+
+                float radius = Vector3.Distance(currentRightGripVec, startInteractionMidpoint);
+
+                //Vertical Steer
+                calculatedZeroDegVec_VerticalSteer = Vector3.Cross(currentLeftGripVec - currentRightGripVec, m_XROrigin.transform.forward*-1).normalized * radius;
+            }
             
             
             
-            
-            
-            
-            //Old X directed interaction
-            // //Debug.Log($"Original X: {m_RightGripStartPosition.x}, Current X: {currentRightGripVec.x}");
-            //
-            // float delta = currentRightGripVec.x - m_RightGripStartPosition.x;
-            //
-            // int newPosition = (int)(m_MotorCurrStartPos + delta * m_InteractionFactor*1.5);
-            //
-            // m_MotorController.ChangePositionExternal(newPosition);
         }
-        else if(m_MotorController.MotorID==1 | m_MotorController.MotorID==4)
+        else if (m_MotorController.MotorID==3 | m_MotorController.MotorID==5)
         {
-            //Horizontal Steer Testing
-            Vector3 startMidpoint = (m_RightGripStartPosition + m_LeftGripStartPosition) / 2;
-
-            m_InteractionVisual.transform.position = startMidpoint;
-
-            float radius = Vector3.Distance(m_RightGripStartPosition, startMidpoint);
-
-            Vector3 calculatedZeroDegVec = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, Vector3.up).normalized * radius;
             
-            m_InteractionVisual.transform.forward = -1*calculatedZeroDegVec;
+            //Vertical Steer
+            float constantV = 1f;
+            if (m_MotorController.MotorID == 3) constantV = 1.5f;
             
-            Vector3 vecR = currentRightGripVec - startMidpoint;
-            Vector3 vecL = currentLeftGripVec - startMidpoint;
-            
-            float angleR = Vector3.Angle(vecR, calculatedZeroDegVec);
-            float angleL = Vector3.Angle(vecL, calculatedZeroDegVec);
-            
-            m_InteractionVisual.GetComponentInChildren<TextMeshProUGUI>().text = "R: "+angleR+"\n"+"L: "+angleL;
+            int newPositionV = (int)(m_MotorCurrStartPos+(angleRV-angleLV)*constantV);
 
-            int newPosition = (int)(m_MotorCurrStartPos+(angleR-angleL)*2.5);
+            m_MotorController.ChangePositionExternal(newPositionV);
+
+            if (angleRH - angleLH > twoDOFToggleThresh | angleRH - angleLH < -twoDOFToggleThresh)
+            {
+                if(m_MotorController.MotorID==3) m_MotorController.SetIDExternal(0);
+                if(m_MotorController.MotorID==5) m_MotorController.SetIDExternal(3);
+                
+                //RESET WHEEL INTERACTION PARAMETERS
+                m_MotorCurrStartPos = m_MotorController.MotorPosition;
+            
+                //Steering Wheel Interaction
+                startInteractionMidpoint = (currentRightGripVec + currentLeftGripVec) / 2;
+
+                m_InteractionVisual.transform.position = startInteractionMidpoint;
+
+                float radius = Vector3.Distance(currentRightGripVec, startInteractionMidpoint);
+
+                //Horizontal Steer
+                calculatedZeroDegVec_HorizontalSteer = Vector3.Cross(currentLeftGripVec - currentRightGripVec, Vector3.up).normalized * radius;
+                
+            }
+            
+            
+        }
+        else if(m_MotorController.MotorID==2 | m_MotorController.MotorID==6)
+        {
+            //Horizontal Steer
+            float constant = 2;
+            if (m_MotorController.MotorID == 1) constant = 2.5f;
+            
+            int newPosition = (int)(m_MotorCurrStartPos+(angleRH-angleLH)*constant);
 
             m_MotorController.ChangePositionExternal(newPosition);
 
         }
         else
         {
-            float changeFactor = rightDelta - leftDelta;
-            // if (changeFactor < 0.2 & changeFactor > -0.2)
-            // {
-            //     changeFactor = 0;
-            // }
-            // else
-            // {
-            //     changeFactor = changeFactor * 5;
-            // }
+            //Horizontal Steer
+            float constant = 2;
+            if (m_MotorController.MotorID == 1) constant = 2.5f;
             
-            int newPosition = (int)(m_MotorCurrStartPos + changeFactor*m_InteractionFactor);
-            Debug.Log($"ChangeFactor: {newPosition}");
-            
+            int newPosition = (int)(m_MotorCurrStartPos+(angleRH-angleLH)*constant);
+
             m_MotorController.ChangePositionExternal(newPosition);
         }
+
 
 
     }

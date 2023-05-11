@@ -1739,6 +1739,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SwitchClusterMotor",
+                    "type": "Button",
+                    "id": "3d1b1db2-cac5-4cca-8faa-c9f058bbea89",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1906,6 +1915,17 @@
                     "action": "WheelActivate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "fb1ce073-855d-427b-84c8-4d1e30aac92d",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchClusterMotor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

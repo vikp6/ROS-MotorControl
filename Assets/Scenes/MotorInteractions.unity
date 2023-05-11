@@ -1151,6 +1151,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractionVisual
       objectReference: {fileID: 0}
+    - target: {fileID: 388556563607269662, guid: 9bc15ddb9bf81804791d318d4ade7f12, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1102136068204010240, guid: 9bc15ddb9bf81804791d318d4ade7f12, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5015167543680972608, guid: 9bc15ddb9bf81804791d318d4ade7f12, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.16
@@ -1421,6 +1429,18 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 4055502697582832125, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
+  m_RightPrimaryButton:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right Primary Button
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 4f429b4a-8e23-45a7-8421-800e32277f8f
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 5882179207760075108, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
   m_MotorController: {fileID: 1583940305}
   m_MotorDataScriptableObject: {fileID: 11400000, guid: 35ab02cd8a39c744da1623c5eab77776, type: 2}
   m_LeftHand: {fileID: 884629621}
@@ -1444,7 +1464,7 @@ MonoBehaviour:
   m_WheelActivate: {fileID: -7041221349465862637, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
   m_SelectionVisualPrefab: {fileID: 317401373211193620, guid: b7b9d6bebac711e4489f38a1b746a37d, type: 3}
   m_LeftController: {fileID: 884629621}
-  m_XRCamera: {fileID: 439475434}
+  m_WheelOrientTo: {fileID: 884629621}
 --- !u!1 &786826911
 GameObject:
   m_ObjectHideFlags: 0

@@ -79,7 +79,7 @@ public class MotorSlider : MonoBehaviour
 
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
         m_RightPrimaryButton.action.Enable();
-        m_RightPrimaryButton.action.started += DialControl;
+        //m_RightPrimaryButton.action.started += DialControl;
         
         m_MenuToggleButton.action.Enable();
         m_MenuToggleButton.action.started += MenuToggle;
