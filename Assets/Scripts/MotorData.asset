@@ -16,7 +16,7 @@ MonoBehaviour:
   m_MotorPositionBounds:
   - start: 200
     low: 200
-    high: 1023
+    high: 900
   - start: 520
     low: 450
     high: 760

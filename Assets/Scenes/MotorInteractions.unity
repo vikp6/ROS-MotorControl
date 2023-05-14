@@ -1462,9 +1462,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_WheelActivate: {fileID: -7041221349465862637, guid: b9bce3f7340cf564e8302ef7a25d392e, type: 3}
-  m_SelectionVisualPrefab: {fileID: 317401373211193620, guid: b7b9d6bebac711e4489f38a1b746a37d, type: 3}
+  m_SelectionVisualPrefab: {fileID: 4239284464555084893, guid: 7bfc800f47a7b224ca01fe9b3b1ae54a, type: 3}
   m_LeftController: {fileID: 884629621}
   m_WheelOrientTo: {fileID: 884629621}
+  m_XROrigin: {fileID: 27551181}
 --- !u!1 &786826911
 GameObject:
   m_ObjectHideFlags: 0

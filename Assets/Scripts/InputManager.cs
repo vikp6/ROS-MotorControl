@@ -54,6 +54,8 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] 
     private GameObject m_InteractionVisual;
+    
+    
 
     private int JoystickFactor = 15;
 
@@ -74,6 +76,8 @@ public class InputManager : MonoBehaviour
     private Vector3 m_CalibrationDrag;
 
     private float m_RealCubeDim = 78;
+
+    private int m_SavedID;
     
     // Start is called before the first frame update
     void Start()
@@ -140,31 +144,39 @@ public class InputManager : MonoBehaviour
         //Toggle Within Clump Obstacles
         m_RightPrimaryButton.reference.action.started += _ =>
         {
+            m_SavedID = m_MotorController.MotorID - 1;
+            m_MotorController.SetID(100);
             
-            m_RightGripStartPosition = m_RightHand.transform.position;
-            m_LeftGripStartPosition = m_LeftHand.transform.position;
-
-            if(m_MotorController.MotorID==1) m_MotorController.SetIDExternal(2);
-            else if(m_MotorController.MotorID==4) m_MotorController.SetIDExternal(4);
-            else if(m_MotorController.MotorID==3) m_MotorController.SetIDExternal(0);
-            else if(m_MotorController.MotorID==5) m_MotorController.SetIDExternal(3);
+            // m_RightGripStartPosition = m_RightHand.transform.position;
+            // m_LeftGripStartPosition = m_LeftHand.transform.position;
+            //
+            // if(m_MotorController.MotorID==1) m_MotorController.SetIDExternal(2);
+            // else if(m_MotorController.MotorID==4) m_MotorController.SetIDExternal(4);
+            // else if(m_MotorController.MotorID==3) m_MotorController.SetIDExternal(0);
+            // else if(m_MotorController.MotorID==5) m_MotorController.SetIDExternal(3);
+            //
+            // //RESET WHEEL INTERACTION PARAMETERS
+            // m_MotorCurrStartPos = m_MotorController.MotorPosition;
+            //
+            // //Steering Wheel Interaction
+            // startInteractionMidpoint = (m_RightGripStartPosition + m_LeftGripStartPosition) / 2;
+            //
+            // m_InteractionVisual.transform.position = startInteractionMidpoint;
+            //
+            // float radius = Vector3.Distance(m_RightGripStartPosition, startInteractionMidpoint);
+            //
+            // //Horizontal Steer
+            // calculatedZeroDegVec_HorizontalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, Vector3.up).normalized * radius;
+            //
+            // //Vertical Steer
+            // calculatedZeroDegVec_VerticalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, m_XROrigin.transform.forward*-1).normalized * radius;
             
-            //RESET WHEEL INTERACTION PARAMETERS
-            m_MotorCurrStartPos = m_MotorController.MotorPosition;
             
-            //Steering Wheel Interaction
-            startInteractionMidpoint = (m_RightGripStartPosition + m_LeftGripStartPosition) / 2;
-
-            m_InteractionVisual.transform.position = startInteractionMidpoint;
-
-            float radius = Vector3.Distance(m_RightGripStartPosition, startInteractionMidpoint);
-
-            //Horizontal Steer
-            calculatedZeroDegVec_HorizontalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, Vector3.up).normalized * radius;
+        };
+        m_RightPrimaryButton.reference.action.canceled += _ =>
+        {
             
-            //Vertical Steer
-            calculatedZeroDegVec_VerticalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, m_XROrigin.transform.forward*-1).normalized * radius;
-            
+            m_MotorController.SetID(m_SavedID);
             
         };
         
@@ -236,7 +248,7 @@ public class InputManager : MonoBehaviour
                 break;
             
             case 1:
-                m_MotorController.SetIDExternal(3);
+                m_MotorController.SetIDExternal(0);
                 break;
                 
             case 2:
@@ -244,7 +256,7 @@ public class InputManager : MonoBehaviour
                 break;
             
             case 3:
-                m_MotorController.SetIDExternal(0);
+                m_MotorController.SetIDExternal(3);
                 break;
         }
         
@@ -340,7 +352,7 @@ public class InputManager : MonoBehaviour
         {
             
             //Vertical Steer
-            float constantV = 1f;
+            float constantV = -1f;
             if (m_MotorController.MotorID == 3) constantV = 1.5f;
             
             int newPositionV = (int)(m_MotorCurrStartPos+(angleRV-angleLV)*constantV);
@@ -369,26 +381,24 @@ public class InputManager : MonoBehaviour
             
             
         }
-        else if(m_MotorController.MotorID==2 | m_MotorController.MotorID==6)
+        else if(m_MotorController.MotorID==6)
         {
             //Horizontal Steer
             float constant = 2;
-            if (m_MotorController.MotorID == 1) constant = 2.5f;
-            
-            int newPosition = (int)(m_MotorCurrStartPos+(angleRH-angleLH)*constant);
+
+            int newPosition = (int)(m_MotorCurrStartPos-(angleRH-angleLH)*constant);
 
             m_MotorController.ChangePositionExternal(newPosition);
 
         }
-        else
+        else if(m_MotorController.MotorID==2)
         {
-            //Horizontal Steer
-            float constant = 2;
-            if (m_MotorController.MotorID == 1) constant = 2.5f;
-            
-            int newPosition = (int)(m_MotorCurrStartPos+(angleRH-angleLH)*constant);
+            //Vertical Steer
+            float constantV = 1.5f;
 
-            m_MotorController.ChangePositionExternal(newPosition);
+            int newPositionV = (int)(m_MotorCurrStartPos+(angleRV-angleLV)*constantV);
+
+            m_MotorController.ChangePositionExternal(newPositionV);
         }
 
 

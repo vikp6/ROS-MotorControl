@@ -1,11 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class WheelSelector : MonoBehaviour
 {
@@ -16,6 +20,9 @@ public class WheelSelector : MonoBehaviour
     [SerializeField] private GameObject m_LeftController;
 
     [SerializeField] private GameObject m_WheelOrientTo;
+
+    [SerializeField] 
+    private GameObject m_XROrigin;
     
     private Vector3 m_WheelCenter;
 
@@ -33,7 +40,7 @@ public class WheelSelector : MonoBehaviour
 
     private int m_FinalWheelSelection;
 
-    private string[] m_FilterNames = {"Obs 1","Obs 2", "Obs 3", "Obs 4", "Motor 5", "Motor 6"};
+    private string[] m_FilterNames = {"1","4", "3", "2", "Motor 5", "Motor 6"};
     
     public static event Action<int,Color> onMotorWheelSelected;
     
@@ -72,7 +79,7 @@ public class WheelSelector : MonoBehaviour
             
             for (int i = 0; i < m_NumofOptions; i++)
             {
-                Vector2 newposition = PolarToCartesian(m_Radius / 2, ((m_DegSections*i)+(m_DegSections/2)));
+                Vector2 newposition = PolarToCartesian(m_Radius / 2, ((m_DegSections*i)+(m_DegSections)));
                 
                 Debug.Log($"newPosition: {newposition}");
                 Debug.Log($"m_WheelCenter: {m_WheelCenter}");
@@ -92,6 +99,7 @@ public class WheelSelector : MonoBehaviour
                 m_WheelChoices[i].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB((m_DegSections*i)/360f,.5f,1));
 
                 m_WheelChoices[i].GetComponentInChildren<TextMeshProUGUI>().text = m_FilterNames[i];
+                
             }
             
         };
@@ -110,9 +118,18 @@ public class WheelSelector : MonoBehaviour
             Vector3 vecB = m_CameraRightDirection;
             
             float angle = Mathf.Acos((vecA.x*vecB.x+vecA.y*vecB.y+vecA.z*vecB.z)/(Mathf.Sqrt(vecA.x*vecA.x+vecA.y*vecA.y+vecA.z*vecA.z)*Mathf.Sqrt(vecB.x*vecB.x+vecB.y*vecB.y+vecB.z*vecB.z)))*Mathf.Rad2Deg;
+            
             if (vecA.y < 0)
             {
-                angle = 360 - angle;
+                angle = 360 - angle - (m_DegSections / 2);
+            }
+            else if (angle < m_DegSections/2)
+            {
+                angle = 360 + (angle - m_DegSections / 2);
+            }
+            else
+            {
+                angle -= (m_DegSections / 2);
             }
 
             if (pointerPosition.x - m_WheelCenter.x > m_Radius || pointerPosition.y - m_WheelCenter.y > m_Radius ||
@@ -124,7 +141,7 @@ public class WheelSelector : MonoBehaviour
             {
                 if (m_WheelSelectionTemp != 0)
                 {
-                    m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.075f,0.025f,0.075f);
+                    m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.075f,0.075f,0.075f);
                     m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,.5f,1);
                     m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,.5f,1));
                     
@@ -136,7 +153,7 @@ public class WheelSelector : MonoBehaviour
             {
                 if (m_WheelSelectionTemp != Mathf.FloorToInt((angle) / m_DegSections))
                 {
-                    m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.075f,0.025f,0.075f);
+                    m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.075f,0.075f,0.075f);
                     m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,.5f,1);
                     m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,.5f,1));
                     
@@ -154,7 +171,7 @@ public class WheelSelector : MonoBehaviour
             
             m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,1,1);
             m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,1,1));
-            m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.1f,0.05f,0.1f);
+            m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.085f,0.085f,0.085f);
 
         };
         m_WheelActivate.action.canceled += _ =>
