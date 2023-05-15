@@ -69,7 +69,7 @@ public class InputManager : MonoBehaviour
     private Vector3 calculatedZeroDegVec_HorizontalSteer;
     private Vector3 calculatedZeroDegVec_VerticalSteer;
 
-    private int twoDOFToggleThresh = 20;
+    private int twoDOFToggleThresh = 25;
     
 
     private Vector3 m_CalibrationStartPoint;
@@ -121,7 +121,8 @@ public class InputManager : MonoBehaviour
             
             //Steering Wheel Interaction
             startInteractionMidpoint = (m_RightGripStartPosition + m_LeftGripStartPosition) / 2;
-
+            
+            m_InteractionVisual.SetActive(true);
             m_InteractionVisual.transform.position = startInteractionMidpoint;
 
             float radius = Vector3.Distance(m_RightGripStartPosition, startInteractionMidpoint);
@@ -137,6 +138,8 @@ public class InputManager : MonoBehaviour
         m_RotateMotors_Grip.reference.action.performed += ctx => MotorPosChangeGrip(ctx);
         m_RotateMotors_Grip.reference.action.canceled += ctx =>
         {
+            m_InteractionVisual.SetActive(false);
+            
             m_RightHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
             m_LeftHand.GetComponentInChildren<XRRayInteractor>().enabled = true;
         };
@@ -293,7 +296,7 @@ public class InputManager : MonoBehaviour
         // //Horizontal Steer
         // Vector3 calculatedZeroDegVec_HorizontalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, Vector3.up).normalized * radius;
         
-        m_InteractionVisual.transform.forward = -1*calculatedZeroDegVec_HorizontalSteer;
+        
             
         Vector3 vecRH = currentRightGripVec - startInteractionMidpoint;
         Vector3 vecLH = currentLeftGripVec - startInteractionMidpoint;
@@ -301,7 +304,7 @@ public class InputManager : MonoBehaviour
         float angleRH = Vector3.Angle(vecRH, calculatedZeroDegVec_HorizontalSteer);
         float angleLH = Vector3.Angle(vecLH, calculatedZeroDegVec_HorizontalSteer);
         
-        m_InteractionVisual.GetComponentInChildren<TextMeshProUGUI>().text = "R: "+angleRH+"\n"+"L: "+angleLH;
+        //m_InteractionVisual.GetComponentInChildren<TextMeshProUGUI>().text = "R: "+angleRH+"\n"+"L: "+angleLH;
 
         // //Vertical Steer
         // Vector3 calculatedZeroDegVec_VerticalSteer = Vector3.Cross(m_LeftGripStartPosition - m_RightGripStartPosition, m_XROrigin.transform.forward*-1).normalized * radius;
@@ -316,6 +319,9 @@ public class InputManager : MonoBehaviour
         
         if (m_MotorController.MotorID==1 | m_MotorController.MotorID==4)
         {
+            //m_InteractionVisual.transform.forward = -1*calculatedZeroDegVec_HorizontalSteer;
+            m_InteractionVisual.transform.eulerAngles = new Vector3(0,
+                m_InteractionVisual.transform.eulerAngles.y, m_InteractionVisual.transform.eulerAngles.z);
             
             //Horizontal Steer
             float constant = 2;
@@ -337,12 +343,15 @@ public class InputManager : MonoBehaviour
                 //Steering Wheel Interaction
                 startInteractionMidpoint = (currentRightGripVec + currentLeftGripVec) / 2;
 
-                m_InteractionVisual.transform.position = startInteractionMidpoint;
+                //m_InteractionVisual.transform.position = startInteractionMidpoint;
 
                 float radius = Vector3.Distance(currentRightGripVec, startInteractionMidpoint);
 
                 //Vertical Steer
                 calculatedZeroDegVec_VerticalSteer = Vector3.Cross(currentLeftGripVec - currentRightGripVec, m_XROrigin.transform.forward*-1).normalized * radius;
+                
+                //m_InteractionVisual.transform.forward = -1*calculatedZeroDegVec_VerticalSteer;
+
             }
             
             
@@ -350,6 +359,11 @@ public class InputManager : MonoBehaviour
         }
         else if (m_MotorController.MotorID==3 | m_MotorController.MotorID==5)
         {
+
+            //m_InteractionVisual.transform.forward = -1*calculatedZeroDegVec_VerticalSteer;
+            
+            m_InteractionVisual.transform.eulerAngles = new Vector3(-90,
+                m_InteractionVisual.transform.eulerAngles.y, m_InteractionVisual.transform.eulerAngles.z);
             
             //Vertical Steer
             float constantV = -1f;
@@ -370,13 +384,15 @@ public class InputManager : MonoBehaviour
                 //Steering Wheel Interaction
                 startInteractionMidpoint = (currentRightGripVec + currentLeftGripVec) / 2;
 
-                m_InteractionVisual.transform.position = startInteractionMidpoint;
+                //m_InteractionVisual.transform.position = startInteractionMidpoint;
 
                 float radius = Vector3.Distance(currentRightGripVec, startInteractionMidpoint);
 
                 //Horizontal Steer
                 calculatedZeroDegVec_HorizontalSteer = Vector3.Cross(currentLeftGripVec - currentRightGripVec, Vector3.up).normalized * radius;
                 
+                //m_InteractionVisual.transform.forward = -1*calculatedZeroDegVec_HorizontalSteer;
+
             }
             
             
