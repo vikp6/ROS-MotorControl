@@ -93,10 +93,11 @@ public class WheelSelector : MonoBehaviour
 
                 m_WheelChoices[i] = Instantiate(m_SelectionVisualPrefab,newTransform);
                 
-                m_WheelChoices[i].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((m_DegSections*i)/360f,.5f,1);
+                //m_WheelChoices[i].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((m_DegSections*i)/360f,.5f,1);
+                m_WheelChoices[i].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB(120f/360f,.5f,(((m_DegSections*i)/360f)*0.6f)+0.4f);
                 
                 m_WheelChoices[i].GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
-                m_WheelChoices[i].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB((m_DegSections*i)/360f,.5f,1));
+                m_WheelChoices[i].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB(120f/360f,.5f,(((m_DegSections*i)/360f)*0.6f)+0.4f));
 
                 m_WheelChoices[i].GetComponentInChildren<TextMeshProUGUI>().text = m_FilterNames[i];
                 
@@ -142,8 +143,8 @@ public class WheelSelector : MonoBehaviour
                 if (m_WheelSelectionTemp != 0)
                 {
                     m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.075f,0.075f,0.075f);
-                    m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,.5f,1);
-                    m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,.5f,1));
+                    m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB(120f/360f,.5f,(((m_DegSections*m_WheelSelectionTemp)/360f)*0.6f)+0.4f);
+                    m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB(120f/360f,.5f,(((m_DegSections*m_WheelSelectionTemp)/360f)*0.6f)+0.4f));
                     
                     m_LeftController.GetComponent<XRBaseController>().SendHapticImpulse(1,.1f);
                 }
@@ -154,8 +155,8 @@ public class WheelSelector : MonoBehaviour
                 if (m_WheelSelectionTemp != Mathf.FloorToInt((angle) / m_DegSections))
                 {
                     m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.075f,0.075f,0.075f);
-                    m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,.5f,1);
-                    m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,.5f,1));
+                    m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB(120f/360f,.5f,(((m_DegSections*m_WheelSelectionTemp)/360f)*0.6f)+0.4f);
+                    m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB(120f/360f,.5f,(((m_DegSections*m_WheelSelectionTemp)/360f)*0.6f)+0.4f));
                     
                     m_LeftController.GetComponent<XRBaseController>().SendHapticImpulse(1,.1f);
                 }
@@ -169,8 +170,8 @@ public class WheelSelector : MonoBehaviour
             Debug.Log($"m_DegSections: {m_DegSections}");
             Debug.Log($"Wheel Selection Number: {m_WheelSelectionTemp}");
             
-            m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,1,1);
-            m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB((m_DegSections*m_WheelSelectionTemp)/360f,1,1));
+            m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.color = Color.HSVToRGB(120f/360f,1,(((m_DegSections*m_WheelSelectionTemp)/360f)*0.6f)+0.4f);
+            m_WheelChoices[m_WheelSelectionTemp].GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.HSVToRGB(120f/360f,1,(((m_DegSections*m_WheelSelectionTemp)/360f)*0.6f)+0.4f));
             m_WheelChoices[m_WheelSelectionTemp].transform.localScale = new Vector3(0.085f,0.085f,0.085f);
 
         };
