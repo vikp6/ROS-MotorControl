@@ -53,6 +53,18 @@ public class InputManager : MonoBehaviour
     private GameObject m_CalibrationCube;
 
     [SerializeField] 
+    private MeshRenderer m_Arrow1;
+    
+    [SerializeField] 
+    private MeshRenderer m_Arrow2;
+
+    [SerializeField] 
+    private MeshRenderer m_Arrow3;
+    
+    [SerializeField] 
+    private MeshRenderer m_Arrow4;
+    
+    [SerializeField] 
     private GameObject m_InteractionVisual;
     
     
@@ -247,18 +259,66 @@ public class InputManager : MonoBehaviour
         switch (newID)
         {
             case 0:
+                m_Arrow1.material.color = Color.HSVToRGB(120f / 360f, 1, 1);
+                m_Arrow1.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, 1, 1));
+                
+                m_Arrow2.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow2.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
+                m_Arrow3.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow3.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
+                m_Arrow4.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow4.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
                 m_MotorController.SetIDExternal(5);
                 break;
             
             case 1:
+                m_Arrow4.material.color = Color.HSVToRGB(120f / 360f, 1, 1);
+                m_Arrow4.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, 1, 1));
+                
+                m_Arrow2.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow2.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
+                m_Arrow3.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow3.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
+                m_Arrow1.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow1.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
                 m_MotorController.SetIDExternal(0);
                 break;
                 
             case 2:
+                m_Arrow3.material.color = Color.HSVToRGB(120f / 360f, 1, 1);
+                m_Arrow3.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, 1, 1));
+                
+                m_Arrow2.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow2.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
+                m_Arrow1.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow1.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
+                m_Arrow4.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow4.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
                 m_MotorController.SetIDExternal(1);
                 break;
             
             case 3:
+                m_Arrow2.material.color = Color.HSVToRGB(120f / 360f, 1, 1);
+                m_Arrow2.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, 1, 1));
+                
+                m_Arrow1.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow1.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
+                m_Arrow3.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow3.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
+                m_Arrow4.material.color = Color.HSVToRGB(120f / 360f, .5f, .5f);
+                m_Arrow4.material.SetColor("_EmissionColor", Color.HSVToRGB(120f / 360f, .5f, .5f));
+                
                 m_MotorController.SetIDExternal(3);
                 break;
         }
@@ -410,7 +470,7 @@ public class InputManager : MonoBehaviour
         else if(m_MotorController.MotorID==2)
         {
             //Vertical Steer
-            float constantV = 1.5f;
+            float constantV = 2f;
 
             int newPositionV = (int)(m_MotorCurrStartPos+(angleRV-angleLV)*constantV);
 

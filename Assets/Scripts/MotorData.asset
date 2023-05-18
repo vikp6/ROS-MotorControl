@@ -15,14 +15,14 @@ MonoBehaviour:
   m_NumberOfMotors: 6
   m_MotorPositionBounds:
   - start: 850
-    low: 200
+    low: 300
     high: 900
   - start: 520
     low: 450
     high: 900
   - start: 495
-    low: 100
-    high: 600
+    low: 170
+    high: 525
   - start: 550
     low: 500
     high: 900

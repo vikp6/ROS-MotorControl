@@ -1131,15 +1131,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 523166011}
-  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -0.5, y: 1, z: 2}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.5, y: 1, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1070665229}
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &579030678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1448,6 +1448,10 @@ MonoBehaviour:
   m_XROrigin: {fileID: 27551181}
   m_CalibrationVisualLine: {fileID: 1272727214}
   m_CalibrationCube: {fileID: 1996396975}
+  m_Arrow1: {fileID: 1926947376}
+  m_Arrow2: {fileID: 1084908998}
+  m_Arrow3: {fileID: 1369676489}
+  m_Arrow4: {fileID: 1381612713}
   m_InteractionVisual: {fileID: 579030679}
 --- !u!114 &711525272
 MonoBehaviour:
@@ -1465,7 +1469,7 @@ MonoBehaviour:
   m_SelectionVisualPrefab: {fileID: 4239284464555084893, guid: 7bfc800f47a7b224ca01fe9b3b1ae54a, type: 3}
   m_LeftController: {fileID: 884629621}
   m_WheelOrientTo: {fileID: 884629621}
-  m_XROrigin: {fileID: 27551181}
+  m_XROrigin: {fileID: 439475426}
 --- !u!1 &786826911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,7 +1627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LineWidth: 0.02
-  m_OverrideInteractorLineLength: 1
+  m_OverrideInteractorLineLength: 0
   m_LineLength: 10
   m_WidthCurve:
     serializedVersion: 2
@@ -1651,8 +1655,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ValidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.60275006, g: 0.8802963, b: 0.990566, a: 0.5019608}
+    key1: {r: 1, g: 1, b: 1, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1660,7 +1664,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 16384
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -1668,7 +1672,7 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 16384
     atime2: 0
     atime3: 0
     atime4: 0
@@ -1680,8 +1684,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 0.60275006, g: 0.8802963, b: 0.990566, a: 0.5019608}
+    key1: {r: 1, g: 1, b: 1, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1689,7 +1693,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 16384
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -1697,7 +1701,7 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 16384
     atime2: 0
     atime3: 0
     atime4: 0
@@ -1709,8 +1713,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_BlockedColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    key1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    key0: {r: 0.60275006, g: 0.8802963, b: 0.990566, a: 0.5019608}
+    key1: {r: 1, g: 1, b: 1, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1718,7 +1722,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 16384
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -1726,7 +1730,7 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 16384
     atime2: 0
     atime3: 0
     atime4: 0
@@ -1809,8 +1813,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.60275006, g: 0.8802963, b: 0.990566, a: 0.5019608}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1818,7 +1822,7 @@ LineRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
+      ctime1: 16384
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -1826,7 +1830,7 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
+      atime1: 16384
       atime2: 0
       atime3: 0
       atime4: 0
@@ -1931,7 +1935,7 @@ MonoBehaviour:
   m_AllowHoverHapticsWhileSelecting: 1
   m_LineType: 0
   m_BlendVisualLinePoints: 1
-  m_MaxRaycastDistance: 30
+  m_MaxRaycastDistance: 3
   m_RayOriginTransform: {fileID: 0}
   m_ReferenceFrame: {fileID: 0}
   m_Velocity: 16
@@ -1947,7 +1951,7 @@ MonoBehaviour:
   m_SphereCastRadius: 0.1
   m_RaycastMask:
     serializedVersion: 2
-    m_Bits: 32
+    m_Bits: 2147483647
   m_RaycastTriggerInteraction: 1
   m_HitClosestOnly: 0
   m_HoverToSelect: 0
@@ -2016,6 +2020,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Direct Interactor
       objectReference: {fileID: 0}
+    - target: {fileID: 8841706926471734270, guid: 2fd3e07afe5b461490fb8e314976b1b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fd3e07afe5b461490fb8e314976b1b0, type: 3}
 --- !u!4 &855478248 stripped
@@ -2083,7 +2091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LineWidth: 0.02
-  m_OverrideInteractorLineLength: 1
+  m_OverrideInteractorLineLength: 0
   m_LineLength: 10
   m_WidthCurve:
     serializedVersion: 2
@@ -2111,8 +2119,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ValidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.60275006, g: 0.8802963, b: 0.990566, a: 0.5019608}
+    key1: {r: 1, g: 1, b: 1, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2120,7 +2128,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 16384
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -2128,7 +2136,7 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 16384
     atime2: 0
     atime3: 0
     atime4: 0
@@ -2140,8 +2148,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 0.60275006, g: 0.8802963, b: 0.990566, a: 0.5019608}
+    key1: {r: 1, g: 1, b: 1, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2149,7 +2157,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 16384
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -2157,7 +2165,7 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 16384
     atime2: 0
     atime3: 0
     atime4: 0
@@ -2169,8 +2177,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_BlockedColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    key1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    key0: {r: 0.60275006, g: 0.8802963, b: 0.990566, a: 0.5019608}
+    key1: {r: 1, g: 1, b: 1, a: 0}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2178,7 +2186,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
+    ctime1: 16384
     ctime2: 0
     ctime3: 0
     ctime4: 0
@@ -2186,7 +2194,7 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 16384
     atime2: 0
     atime3: 0
     atime4: 0
@@ -2269,8 +2277,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.60275006, g: 0.8802963, b: 0.990566, a: 0.5019608}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2278,7 +2286,7 @@ LineRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
+      ctime1: 16384
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -2286,7 +2294,7 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
+      atime1: 16384
       atime2: 0
       atime3: 0
       atime4: 0
@@ -2391,7 +2399,7 @@ MonoBehaviour:
   m_AllowHoverHapticsWhileSelecting: 1
   m_LineType: 0
   m_BlendVisualLinePoints: 1
-  m_MaxRaycastDistance: 30
+  m_MaxRaycastDistance: 3
   m_RayOriginTransform: {fileID: 0}
   m_ReferenceFrame: {fileID: 0}
   m_Velocity: 16
@@ -2676,6 +2684,11 @@ Transform:
   m_Father: {fileID: 523166015}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1084908998 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5293119158944160922, guid: 0889301e434831a4b9972fa022ad5a1e, type: 3}
+  m_PrefabInstance: {fileID: 1825712818}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1272727213
 GameObject:
   m_ObjectHideFlags: 0
@@ -2807,6 +2820,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1369676489 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 329790239713688202, guid: 0889301e434831a4b9972fa022ad5a1e, type: 3}
+  m_PrefabInstance: {fileID: 1825712818}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1381612713 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6436630300456008157, guid: 0889301e434831a4b9972fa022ad5a1e, type: 3}
+  m_PrefabInstance: {fileID: 1825712818}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1484159510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3089,6 +3112,30 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7846812838550169396, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: Obstacle 4A
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846812838550169396, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[1].m_Text
+      value: Obstacle 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846812838550169396, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[2].m_Text
+      value: Obstacle 4B
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846812838550169396, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[3].m_Text
+      value: Obstacle 2A
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846812838550169396, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[4].m_Text
+      value: Obstacle 2B
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846812838550169396, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[5].m_Text
+      value: Obstacle 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846812838550169396, guid: fc845fc3f4962d6469e32fcceeec06a7, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
@@ -3232,6 +3279,11 @@ PrefabInstance:
 --- !u!4 &1825712819 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6037789968785010470, guid: 0889301e434831a4b9972fa022ad5a1e, type: 3}
+  m_PrefabInstance: {fileID: 1825712818}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1926947376 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5751542034573192973, guid: 0889301e434831a4b9972fa022ad5a1e, type: 3}
   m_PrefabInstance: {fileID: 1825712818}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1996396975
