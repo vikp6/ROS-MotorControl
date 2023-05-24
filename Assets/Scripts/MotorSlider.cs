@@ -79,7 +79,7 @@ public class MotorSlider : MonoBehaviour
 
         m_PositionText = gameObject.GetComponentsInChildren<TextMeshPro>();
         m_RightPrimaryButton.action.Enable();
-        m_RightPrimaryButton.action.started += DialControl;
+        //m_RightPrimaryButton.action.started += DialControl;
         
         m_MenuToggleButton.action.Enable();
         m_MenuToggleButton.action.started += MenuToggle;
@@ -108,7 +108,11 @@ public class MotorSlider : MonoBehaviour
         m_Rosmanager.PublishMotorPos(m_MotorID, m_MotorPosition);
         
         //Query motor position from ROS
-        m_Rosmanager.QueryMotorPosition(m_MotorID);
+        if (m_MotorID != 100)
+        {
+            m_Rosmanager.QueryMotorPosition(m_MotorID);
+        }
+        
 
     }
 
@@ -223,58 +227,68 @@ public class MotorSlider : MonoBehaviour
 
     public void ChangePositionExternal(int position)
     {
-        m_Slider.value = position;
-    }
-
-    //Right Hand Rotation can control motor with this, need to get it to be enabled by an input action
-    // public void handTurnMotorControl()
-    // {
-    //     float handRot = rightHand.transform.eulerAngles.z;
-    //
-    //     
-    //     
-    //     if (handRot is > 150 and < 210)
-    //     {
-    //         
-    //     }
-    //     else
-    //     {
-    //         if (handRot >= 210)
-    //         {
-    //             handRot -= 360;
-    //         }
-    //         m_Slider.value = (handRot + 150) * 3.41f;
-    //     }
-    //     
-    //     
-    // }
-    
-    public void SetID(int id)
-    {
-        //Disable dial control if active
-        if (m_MotorDialControl.activeSelf)
+        if (m_Slider.IsActive())
         {
-            m_MotorDialControl.SetActive(false);
-            m_RightHand.GetComponent<XRRayInteractor>().enabled = true;
+            m_Slider.value = position;
+        }
+        else
+        {
+            SetPosition(position);
         }
         
-        //Save prev motor state
-        m_MotorSaveState[m_MotorID - 1] = m_MotorPosition;
+    }
+
+    public void SetID(int id)
+    {
+        if (id == 100)
+        {
+            m_MotorID = id;
+            
+            for(int i = 0;i<m_MotorSaveState.Length;i++)
+            {
+                m_MotorSaveState[i] = m_MotorDataScriptableObject.MotorPositionBounds[i].start;
+            }
+            
+            m_MotorPosition = m_MotorSaveState[0];
+        }
+        else
+        {
+            //Disable dial control if active
+            if (m_MotorDialControl.activeSelf)
+            {
+                m_MotorDialControl.SetActive(false);
+                m_RightHand.GetComponent<XRRayInteractor>().enabled = true;
+            }
         
-        //Update Motor ID
-        m_MotorID = id+1;
+            //Save prev motor state
+            if (m_MotorID != 100)
+            {
+                m_MotorSaveState[m_MotorID - 1] = m_MotorPosition;
+            }
+            
         
-        m_Slider.minValue = m_MotorDataScriptableObject.MotorPositionBounds[id].low;
-        m_Slider.maxValue = m_MotorDataScriptableObject.MotorPositionBounds[id].high;
+            //Update Motor ID
+            m_MotorID = id+1;
         
-        //Retrieve previous save state motor position
-        m_Slider.value = m_MotorSaveState[id];
+            m_Slider.minValue = m_MotorDataScriptableObject.MotorPositionBounds[id].low;
+            m_Slider.maxValue = m_MotorDataScriptableObject.MotorPositionBounds[id].high;
+        
+            //Retrieve previous save state motor position
+            m_Slider.value = m_MotorSaveState[id];
+        }
 
     }
 
     public void SetIDExternal(int id)
     {
-        m_Dropdown.value = id;   
+        if (m_Dropdown.IsActive())
+        {
+            m_Dropdown.value = id;  
+        }
+        else
+        {
+            SetID(id);
+        }
     }
     
 }

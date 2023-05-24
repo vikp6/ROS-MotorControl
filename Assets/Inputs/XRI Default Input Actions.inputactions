@@ -1730,6 +1730,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "WheelActivate",
+                    "type": "Value",
+                    "id": "75bc7e84-dc5a-42ff-aa45-15530d4c1d53",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SwitchClusterMotor",
+                    "type": "Button",
+                    "id": "3d1b1db2-cac5-4cca-8faa-c9f058bbea89",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1835,7 +1853,7 @@
                 {
                     "name": "modifier1",
                     "id": "7bb9909f-66c3-4cb6-8ecb-6c2ca6954f04",
-                    "path": "",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1846,7 +1864,7 @@
                 {
                     "name": "modifier2",
                     "id": "3330076b-f140-4dbe-b405-27b5453c2f5d",
-                    "path": "",
+                    "path": "<XRController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1857,13 +1875,57 @@
                 {
                     "name": "binding",
                     "id": "641d7eec-207b-4591-a8c5-fd9d714c6a93",
-                    "path": "",
+                    "path": "<XRController>{RightHand}/devicePosition",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Calibrate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "b5365145-0f58-430b-a27d-c1ebb56300fd",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WheelActivate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "c591daa4-1162-4f37-95ea-5d20052c9bf5",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WheelActivate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "f47f4dcc-b544-4c04-9b8e-fdc8e54c9480",
+                    "path": "<XRController>{LeftHand}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WheelActivate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "fb1ce073-855d-427b-84c8-4d1e30aac92d",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchClusterMotor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
